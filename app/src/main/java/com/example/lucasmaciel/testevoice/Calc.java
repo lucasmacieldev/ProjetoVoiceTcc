@@ -49,7 +49,7 @@ public class Calc extends Activity implements TextToSpeech.OnInitListener {
 
         tts = new TextToSpeech(this, this);
 
-        
+         
     }
 
     @Override
