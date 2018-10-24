@@ -1,15 +1,29 @@
 package com.example.lucasmaciel.testevoice;
 
+import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Criteria;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.BatteryManager;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeechService;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -22,116 +36,173 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.speech.RecognitionListener;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ToggleButton;
 
-public class MainActivity extends AppCompatActivity implements RecognitionListener, View.OnClickListener, View.OnLongClickListener {
+import com.example.lucasmaciel.testevoice.model1.*;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class MainActivity extends AppCompatActivity implements RecognitionListener, View.OnClickListener, View.OnLongClickListener, LocationListener {
+
+    final int MY_PERMISSION_REQUEST_CODE = 7171;
+    GPSTracker gps;
+    double lat;
+    double lng;
+    String city;
     TextToSpeech textToSpeech;
     Button btnFalar;
     TextView txtFalar;
     Context context;
     private TextView bateriaVal;
     private final int ID_TEXTO_PARA_VOZ = 100;
-    private TextView returnedText, horariodatatxtVar;
+    private TextView returnedText, horariodatatxtVar, textoLocal, txtClima;
     private ToggleButton toggleButton;
     private SpeechRecognizer speech = null;
     private Intent recognizerIntent;
     private String LOG_TAG = "VoiceRecognitionActivity";
-    private CardView contato, ligar, clima, alarme, bateria, horadata;
+    private CardView contato, ligar, clima, alarme, bateria, horadata, local, calculadora;
+    LocationManager locationManager;
+    String provider;
+
+    Geocoder geocoder;
+    List<Address> addresses;
+    private LocationListener listener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        super.onCreate (savedInstanceState);
+        setContentView (R.layout.activity_main);
+
+        if (ActivityCompat.checkSelfPermission (this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission (this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions (this, new String[]{
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+            }, MY_PERMISSION_REQUEST_CODE);
+
+        } else {
+            getLocation ();
+        }
 
         //BATERIA
         bateriaVal = (TextView) this.findViewById (R.id.bateriaIdText);
         this.registerReceiver (this.mBatInfoReceive, new IntentFilter (Intent.ACTION_BATTERY_CHANGED));
 
-        returnedText = (TextView) findViewById(R.id.txtFalar);
-        horariodatatxtVar = (TextView) findViewById(R.id.horariodatatxt);
-        toggleButton = (ToggleButton) findViewById(R.id.btnFalar);
-
-        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+        returnedText = (TextView) findViewById (R.id.txtFalar);
+        horariodatatxtVar = (TextView) findViewById (R.id.horariodatatxt);
+        textoLocal = (TextView) findViewById (R.id.txtlocal);
+        toggleButton = (ToggleButton) findViewById (R.id.btnFalar);
+        txtClima = (TextView) findViewById (R.id.climaTxt);
+        textToSpeech = new TextToSpeech (getApplicationContext (), new TextToSpeech.OnInitListener () {
             @Override
             public void onInit(int status) {
-                if(status != textToSpeech.ERROR){
-                    textToSpeech.setLanguage(Locale.getDefault());
+                if (status != textToSpeech.ERROR) {
+                    textToSpeech.setLanguage (Locale.getDefault ());
                 }
             }
         });
 
         //Horario
-        Calendar c = Calendar.getInstance();
-        int ano = c.get(Calendar.YEAR);
-        int mes = c.get(Calendar.MONTH)+1;
-        int dia = c.get(Calendar.DAY_OF_MONTH);
-        int hora = c.get(Calendar.HOUR_OF_DAY);
-        int minuto = c.get(Calendar.MINUTE);
-        String horarioeDataval = "Data:"+dia+"/"+ mes+"/"+ano+ " Horário:" + hora + ":" + minuto;
-        horariodatatxtVar.setText(horarioeDataval);
+        Calendar c = Calendar.getInstance ();
+        int ano = c.get (Calendar.YEAR);
+        int mes = c.get (Calendar.MONTH) + 1;
+        int dia = c.get (Calendar.DAY_OF_MONTH);
+        int hora = c.get (Calendar.HOUR_OF_DAY);
+        int minuto = c.get (Calendar.MINUTE);
+        String horarioeDataval = "Data:" + dia + "/" + mes + "/" + ano + " Horário:" + hora + ":" + minuto;
+        horariodatatxtVar.setText (horarioeDataval);
 
-        speech = SpeechRecognizer.createSpeechRecognizer(this);
-        speech.setRecognitionListener(this);
-        recognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, Locale.getDefault());
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
-                this.getPackageName());
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+        speech = SpeechRecognizer.createSpeechRecognizer (this);
+        speech.setRecognitionListener (this);
+        recognizerIntent = new Intent (RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        recognizerIntent.putExtra (RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, Locale.getDefault ());
+        recognizerIntent.putExtra (RecognizerIntent.EXTRA_CALLING_PACKAGE,
+                this.getPackageName ());
+        recognizerIntent.putExtra (RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3);
+        recognizerIntent.putExtra (RecognizerIntent.EXTRA_MAX_RESULTS, 3);
 
-        toggleButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        toggleButton.setOnCheckedChangeListener (new OnCheckedChangeListener () {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView,
                                          boolean isChecked) {
                 if (isChecked) {
-                    speech.startListening(recognizerIntent);
+                    speech.startListening (recognizerIntent);
                 } else {
-                    speech.stopListening();
+                    speech.stopListening ();
                 }
             }
         });
 
-        contato = (CardView) findViewById(R.id.contatoId);
-        ligar = (CardView) findViewById(R.id.telefoneId);
-        clima = (CardView) findViewById(R.id.climaId);
-        alarme = (CardView) findViewById(R.id.alarmeId);
-        bateria = (CardView) findViewById(R.id.bateriaId);
-        horadata = (CardView) findViewById(R.id.HorarioId);
+        contato = (CardView) findViewById (R.id.contatoId);
+        ligar = (CardView) findViewById (R.id.telefoneId);
+        clima = (CardView) findViewById (R.id.climaId);
+        alarme = (CardView) findViewById (R.id.alarmeId);
+        bateria = (CardView) findViewById (R.id.bateriaId);
+        horadata = (CardView) findViewById (R.id.HorarioId);
+        local = (CardView) findViewById (R.id.localId);
+        calculadora = (CardView) findViewById (R.id.calcId);
 
-        contato.setOnClickListener(this);
-        ligar.setOnClickListener(this);
-        clima.setOnClickListener(this);
-        alarme.setOnClickListener(this);
-        bateria.setOnClickListener(this);
-        horadata.setOnClickListener(this);
+        contato.setOnClickListener (this);
+        ligar.setOnClickListener (this);
+        clima.setOnClickListener (this);
+        alarme.setOnClickListener (this);
+        bateria.setOnClickListener (this);
+        horadata.setOnClickListener (this);
+        local.setOnClickListener (this);
+        calculadora.setOnClickListener (this);
 
-        contato.setOnLongClickListener(this);
-        ligar.setOnLongClickListener(this);
-        clima.setOnLongClickListener(this);
-        alarme.setOnLongClickListener(this);
-        bateria.setOnLongClickListener(this);
-        horadata.setOnLongClickListener(this);
+        contato.setOnLongClickListener (this);
+        ligar.setOnLongClickListener (this);
+        clima.setOnLongClickListener (this);
+        alarme.setOnLongClickListener (this);
+        bateria.setOnLongClickListener (this);
+        horadata.setOnLongClickListener (this);
+        local.setOnLongClickListener (this);
+        calculadora.setOnLongClickListener (this);
 
-        returnedText.addTextChangedListener(new TextWatcher() {
+        returnedText.addTextChangedListener (new TextWatcher () {
             public void afterTextChanged(Editable s) {
-                String falar = "Repetindo: " + returnedText.getText().toString();
-                Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
-                textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                String falar = "Repetindo: " + returnedText.getText ().toString ();
+                Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
             }
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
         });
 
+
+    }
+
+    private void getLocation() {
+        locationManager = (LocationManager) getSystemService (Context.LOCATION_SERVICE);
+        provider = locationManager.getBestProvider (new Criteria (), false);
+
+
+        if (ActivityCompat.checkSelfPermission (this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission (this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+        final android.location.Location location = locationManager.getLastKnownLocation (provider);
+        if(location == null)
+            Log.e("ERROR","Location is null");
     }
 
     public void horarioEData(){
@@ -185,20 +256,62 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                     startActivity (j);
                     break;
                 } else if (textGet.equals ("clima") || textGet.equals ("tempo") || textGet.equals ("tempo hoje")) {
-                    falar = "Abrindo clima";
-                    Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
-                    textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
-                    j = new Intent (this, Clima.class);
-                    startActivity (j);
+                    gps = new GPSTracker(MainActivity.this);
+
+                    double lat = gps.getLatitude();
+                    double lng = gps.getLongitude();
+                    geocoder = new Geocoder(this, Locale.getDefault());// Here 1 represent max location result to returned, by documents it recommended 1 to 5
+                    try {
+                        addresses = geocoder.getFromLocation (lat, lng, 1);
+                    } catch (IOException e) {
+                        e.printStackTrace ();
+                    }
+
+                    city = addresses.get(0).getLocality();
+                    JSONWeatherTask task = new JSONWeatherTask();
+                    task.execute(new String[]{city});
                     break;
                 } else if(textGet.equals ("bateria")) {
                     falar = "Bateria em: " + bateriaVal.getText ().toString ();
                     Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                     textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
                     break;
-                } else if(textGet.equals ("horario") || textGet.equals ("data") || textGet.equals ("hora") || textGet.equals ("que horas são")){
-                        horarioEData();
-                        break;
+                } else if(textGet.equals ("horario") || textGet.equals ("data") || textGet.equals ("hora") || textGet.equals ("que horas são")) {
+                    horarioEData ();
+                    break;
+                }else if(textGet.equals ("calculadora") || textGet.equals ("somar") || textGet.equals ("subitrair") || textGet.equals ("dividir") || textGet.equals ("multiplicar")){
+                    falar = "Calculadora";
+                    Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                    textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                        j = new Intent (this, Calc.class);
+                    startActivity (j);
+                    break;
+                }else if(textGet.equals ("local") || textGet.equals ("onde estou") || textGet.equals ("localização") || textGet.equals ("nome da rua") || textGet.equals ("rua")){
+                    GPSTracker gps = new GPSTracker(MainActivity.this);
+
+                    double lat = gps.getLatitude();
+                    double lng = gps.getLongitude();
+                    geocoder = new Geocoder(this, Locale.getDefault());// Here 1 represent max location result to returned, by documents it recommended 1 to 5
+                    try {
+                        addresses = geocoder.getFromLocation (lat, lng, 1);
+                    } catch (IOException e) {
+                        e.printStackTrace ();
+                    }
+                    String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                    String city = addresses.get(0).getLocality();
+                    String abc = addresses.get(0).getFeatureName ();
+                    String state = addresses.get(0).getAdminArea();
+                    String country = addresses.get(0).getCountryName();
+                    String postalCode = addresses.get(0).getPostalCode();
+                    String knownName = addresses.get(0).getFeatureName();
+
+                    textoLocal.setText("Localização atual: " + address);
+
+                    falar = "Localização atual: " +address;
+                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                    break;
+
                 }
             }
     }
@@ -209,7 +322,23 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         switch (v.getId ()){
             case R.id.contatoId : i = new Intent (this, Contato.class);startActivity(i); onPause(); break;
             case R.id.telefoneId : i = new Intent (this, Telefone.class);startActivity(i); onPause(); break;
-            case R.id.climaId : i = new Intent (this, Clima.class);startActivity(i); onPause(); break;
+            case R.id.calcId : i = new Intent (this, Calc.class);startActivity(i); onPause(); break;
+            case R.id.climaId :
+                gps = new GPSTracker(MainActivity.this);
+
+                double lat = gps.getLatitude();
+                double lng = gps.getLongitude();
+                geocoder = new Geocoder(this, Locale.getDefault());// Here 1 represent max location result to returned, by documents it recommended 1 to 5
+                try {
+                    addresses = geocoder.getFromLocation (lat, lng, 1);
+                } catch (IOException e) {
+                    e.printStackTrace ();
+                }
+
+                city = addresses.get(0).getLocality();
+                JSONWeatherTask task = new JSONWeatherTask();
+                task.execute(new String[]{city});
+                 break;
             case R.id.alarmeId : i = new Intent (this, Alarme.class);startActivity(i); onPause(); break;
             case R.id.bateriaId :
                 falar = "Bateria em: " + bateriaVal.getText().toString();
@@ -217,6 +346,39 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null); break;
             case R.id.HorarioId :
                 horarioEData();
+                break;
+            case R.id.localId :
+                /*
+                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                Location myLocation = locationManager.getLastKnownLocation(provider);
+                lat = myLocation.getLatitude();
+                lng = myLocation.getLongitude();
+                new GetAddress().execute(String.format("%.4f,%.4f",lat,lng));
+                */
+                 gps = new GPSTracker(MainActivity.this);
+
+                 lat = gps.getLatitude();
+                 lng = gps.getLongitude();
+                geocoder = new Geocoder(this, Locale.getDefault());// Here 1 represent max location result to returned, by documents it recommended 1 to 5
+                try {
+                    addresses = geocoder.getFromLocation (lat, lng, 1);
+                } catch (IOException e) {
+                    e.printStackTrace ();
+                }
+                String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                city = addresses.get(0).getLocality();
+                String state = addresses.get(0).getAdminArea();
+                String country = addresses.get(0).getCountryName();
+                String postalCode = addresses.get(0).getPostalCode();
+                String knownName = addresses.get(0).getFeatureName();
+
+                textoLocal.setText("Localização atual: " + address);
+
+                falar = "Localização atual: " +address;
+                Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
                 break;
             default:break;
         }
@@ -227,6 +389,11 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         Intent i;
         String falar = "";
         switch (v.getId ()){
+            case R.id.calcId :
+                falar = "Calculadora";
+                Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                break;
             case R.id.contatoId :
                 falar = "Contato";
                 Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
@@ -238,7 +405,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
                 break;
             case R.id.bateriaId :
-                falar = "Bateria em: " + bateriaVal.getText().toString();
+                falar = "Bateria";
                 Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
                 textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
                 break;
@@ -252,8 +419,16 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
                 textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
                 break;
+            case R.id.localId :
+                falar = "Localização";
+                Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                break;
             case R.id.HorarioId :
-                horarioEData();
+                falar = "Horario";
+                Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                //horarioEData();
                 break;
             default:break;
         }
@@ -262,8 +437,45 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
 
     @Override
-    public void onResume() {
+    protected void onResume() {
         super.onResume();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        locationManager.requestLocationUpdates(provider, 400, 1, this);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                    getLocation();
+                break;
+
+        }
+    }
+
+    @Override
+    public void onLocationChanged(android.location.Location location) {
+        lat = location.getLatitude();
+        lng = location.getLongitude();
+        //new GetAddress().execute(String.format("%.4f,%.4f",lat,lng));
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 
     @Override
@@ -378,5 +590,52 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         return message;
     }
 
+    private class JSONWeatherTask extends AsyncTask<String, Void, Weather> {
 
+        @Override
+        protected Weather doInBackground(String... params) {
+            Weather weather = new Weather ();
+            String data = ((new WeatherHttpClient ()).getWeatherData (params[0]));
+
+            try {
+                weather = JSONWeatherParser.getWeather (data);
+
+                // Let's retrieve the icon
+                weather.iconData = ((new WeatherHttpClient ()).getImage (weather.currentCondition.getIcon ()));
+
+            } catch (JSONException e) {
+                e.printStackTrace ();
+            }
+            return weather;
+
+        }
+
+
+        @Override
+        protected void onPostExecute(Weather weather) {
+            super.onPostExecute (weather);
+
+            String textoGraus = "Clima: " + Math.round ((weather.temperature.getTemp () - 273.15)) + "Graus"
+                    + "  com umidade de: " + weather.currentCondition.getHumidity() + "%";
+            txtClima.setText (textoGraus);
+
+            Toast.makeText(getApplicationContext(), textoGraus, Toast.LENGTH_SHORT).show();
+            textToSpeech.speak(textoGraus, TextToSpeech.QUEUE_FLUSH, null);
+            //weather.currentCondition.getDescr();
+            /*
+            if (weather.iconData != null && weather.iconData.length > 0) {
+                Bitmap img = BitmapFactory.decodeByteArray(weather.iconData, 0, weather.iconData.length);
+                imgView.setImageBitmap(img);
+            }
+
+            cityText.setText(weather.location.getCity() + "," + weather.location.getCountry());
+            condDescr.setText(weather.currentCondition.getCondition() + "(" + weather.currentCondition.getDescr() + ")");
+            temp.setText("" + Math.round((weather.temperature.getTemp() - 273.15)) + "�C");
+            hum.setText("" + weather.currentCondition.getHumidity() + "%");
+            press.setText("" + weather.currentCondition.getPressure() + " hPa");
+            windSpeed.setText("" + weather.wind.getSpeed() + " mps");
+            windDeg.setText("" + weather.wind.getDeg() + "�");
+            */
+        }
+    }
 }

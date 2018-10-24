@@ -15,4 +15,6 @@
     <color name="black_overlay">#66000000</color>
     <color name="black">#66000000</color>
     <color name="blue">#661c37ff</color>
+    <color name="verde">#6600bc09</color>
+    <color name="default1">#66e15cff</color>
 </resources>

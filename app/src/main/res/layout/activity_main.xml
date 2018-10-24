@@ -195,7 +195,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
-                                android:text="Realizar Ligações"
+                                android:text="Telefone"
                                 android:textStyle="bold" />
 
                         </LinearLayout>
@@ -264,6 +264,7 @@
                                 android:src="@drawable/ic_brightness_low_white_24dp" />
 
                             <TextView
+                                android:id="@+id/climaTxt"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
@@ -281,8 +282,8 @@
                     android:orientation="horizontal">
 
                     <android.support.v7.widget.CardView
-                        android:id="@+id/alarmeId"
-                        android:text="Alarme"
+                        android:id="@+id/localId"
+                        android:text="Localização"
                         android:layout_width="160dp"
                         android:layout_height="190dp"
                         android:layout_margin="10dp"
@@ -299,28 +300,29 @@
                             <ImageView
                                 android:layout_width="64dp"
                                 android:layout_height="64dp"
-                                android:background="@drawable/cerclebackbroudyellow"
+                                android:background="@drawable/cerclebackbroudverde"
                                 android:padding="10dp"
-                                android:src="@drawable/ic_access_alarm_white_24dp" />
+                                android:src="@drawable/ic_location_on_white_24dp" />
 
                             <TextView
+                                android:id="@+id/txtlocal"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
-                                android:text="Alarme"
+                                android:text="Localização"
                                 android:textStyle="bold" />
 
                         </LinearLayout>
                     </android.support.v7.widget.CardView>
-
                     <android.support.v7.widget.CardView
-                        android:id="@+id/climaId"
-                        android:text="Clima"
+                        android:id="@+id/calcId"
+                        android:text="Calculadora"
                         android:layout_width="160dp"
                         android:layout_height="190dp"
                         android:layout_margin="10dp"
                         android:clickable="true"
-                        android:foreground="?android:attr/selectableItemBackground">
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:focusable="true">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -331,19 +333,20 @@
                             <ImageView
                                 android:layout_width="64dp"
                                 android:layout_height="64dp"
-                                android:background="@drawable/cerclebackbroudpink"
+                                android:background="@drawable/cerclebackbrouddefault1"
                                 android:padding="10dp"
-                                android:src="@drawable/ic_brightness_low_white_24dp" />
+                                android:src="@drawable/ic_exposure_plus_1_black_24dp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
-                                android:text="Clima"
+                                android:text="Calculadora"
                                 android:textStyle="bold" />
 
                         </LinearLayout>
                     </android.support.v7.widget.CardView>
+
                 </LinearLayout>
             </LinearLayout>
 
