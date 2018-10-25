@@ -389,6 +389,8 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 String postalCode = addresses.get(0).getPostalCode();
                 String knownName = addresses.get(0).getFeatureName();
 
+
+
                 textoLocal.setText("Localização atual: " + address);
 
                 falar = "Localização atual: " +address;
