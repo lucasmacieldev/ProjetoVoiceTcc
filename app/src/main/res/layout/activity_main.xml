@@ -11,344 +11,346 @@
     android:gravity="center"
     android:id="@+id/ll">
 
-        <ScrollView
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" >
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:gravity="center"
+            android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:clipToPadding="false"
                 android:gravity="center"
-                android:orientation="vertical">
-                <LinearLayout
-                    android:clipToPadding="false"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <android.support.v7.widget.CardView
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:layout_width="340dp"
-                        android:layout_height="150dp"
-                        android:layout_margin="10dp">
-                        <LinearLayout
+                android:orientation="horizontal">
 
+                <android.support.v7.widget.CardView
+                    android:id="@+id/bateriaId"
+                    android:text="Bateria"
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
+                    android:layout_margin="10dp"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:background="@drawable/cerclebackbroudblack"
+                            android:padding="10dp"
+                            android:src="@drawable/ic_battery_unknown_black_24dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="BateriaValue"
+                            android:id="@+id/bateriaIdText"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
+                    android:layout_margin="10dp"
+                    android:clickable="true"
+                    android:id="@+id/HorarioId"
+                    android:text="Horario e data"
+                    android:foreground="?android:attr/selectableItemBackground">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        >
+
+                        <ImageView
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:background="@drawable/cerclebackbroudblue"
+                            android:padding="10dp"
+                            android:src="@drawable/ic_access_time_white_24dp" />
+
+                        <TextView
+                            android:id="@+id/horariodatatxt"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:gravity="center">
-
-                            <ToggleButton
-                                android:id="@+id/btnFalar"
-                                android:layout_width="64dp"
-                                android:layout_height="64dp"
-                                android:background="@drawable/cerclebackbroudred"
-                                android:src="@drawable/ic_mic_white_24dp"
-                                android:padding="10dp"
-                                />
-                            <TextView
-                                android:id="@+id/txtFalar"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"/>
-                        </LinearLayout>
-                    </android.support.v7.widget.CardView>
-
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clipToPadding="false"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <android.support.v7.widget.CardView
-                        android:id="@+id/bateriaId"
-                        android:text="Bateria"
-                        android:layout_width="160dp"
-                        android:layout_height="160dp"
-                        android:layout_margin="10dp"
-                        android:clickable="true"
-                        android:foreground="?android:attr/selectableItemBackground">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Horário e Data"
                             android:gravity="center"
-                            android:orientation="vertical">
+                            android:textStyle="bold" />
 
-                            <ImageView
-                                android:layout_width="64dp"
-                                android:layout_height="64dp"
-                                android:background="@drawable/cerclebackbroudblack"
-                                android:padding="10dp"
-                                android:src="@drawable/ic_battery_unknown_black_24dp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:text="BateriaValue"
-                                android:id="@+id/bateriaIdText"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-                    </android.support.v7.widget.CardView>
-
-                    <android.support.v7.widget.CardView
-                        android:layout_width="160dp"
-                        android:layout_height="160dp"
-                        android:layout_margin="10dp"
-                        android:clickable="true"
-                        android:id="@+id/HorarioId"
-                        android:text="Horario e data"
-                        android:foreground="?android:attr/selectableItemBackground">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:orientation="vertical"
-                            >
-
-                            <ImageView
-                                android:layout_width="64dp"
-                                android:layout_height="64dp"
-                                android:background="@drawable/cerclebackbroudblue"
-                                android:padding="10dp"
-                                android:src="@drawable/ic_access_time_white_24dp" />
-
-                            <TextView
-                                android:id="@+id/horariodatatxt"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:text="Horário e Data"
-                                android:gravity="center"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-                    </android.support.v7.widget.CardView>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clipToPadding="false"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <android.support.v7.widget.CardView
-                        android:id="@+id/contatoId"
-                        android:text="Lista de contatos"
-                        android:layout_width="160dp"
-                        android:layout_height="190dp"
-                        android:layout_margin="10dp"
-                        android:clickable="true"
-                        android:foreground="?android:attr/selectableItemBackground">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="64dp"
-                                android:layout_height="64dp"
-                                android:background="@drawable/cerclebackbroudpurple"
-                                android:padding="10dp"
-                                android:src="@drawable/ic_contacts_black_24dp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:text="Contato"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-                    </android.support.v7.widget.CardView>
-
-                    <android.support.v7.widget.CardView
-                        android:layout_width="160dp"
-                        android:layout_height="190dp"
-                        android:layout_margin="10dp"
-                        android:clickable="true"
-                        android:id="@+id/telefoneId"
-                        android:text="Realizar Ligação"
-                        android:foreground="?android:attr/selectableItemBackground">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:orientation="vertical"
-                            >
-
-                            <ImageView
-                                android:layout_width="64dp"
-                                android:layout_height="64dp"
-                                android:background="@drawable/cerclebackbroudgreen"
-                                android:padding="10dp"
-                                android:src="@drawable/ic_call_black_24dp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:text="Telefone"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-                    </android.support.v7.widget.CardView>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clipToPadding="false"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <android.support.v7.widget.CardView
-                        android:id="@+id/alarmeId"
-                        android:text="Alarme"
-                        android:layout_width="160dp"
-                        android:layout_height="190dp"
-                        android:layout_margin="10dp"
-                        android:clickable="true"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:focusable="true">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="64dp"
-                                android:layout_height="64dp"
-                                android:background="@drawable/cerclebackbroudyellow"
-                                android:padding="10dp"
-                                android:src="@drawable/ic_access_alarm_white_24dp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:text="Alarme"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-                    </android.support.v7.widget.CardView>
-
-                    <android.support.v7.widget.CardView
-                        android:id="@+id/climaId"
-                        android:text="Clima"
-                        android:layout_width="160dp"
-                        android:layout_height="190dp"
-                        android:layout_margin="10dp"
-                        android:clickable="true"
-                        android:foreground="?android:attr/selectableItemBackground">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="64dp"
-                                android:layout_height="64dp"
-                                android:background="@drawable/cerclebackbroudpink"
-                                android:padding="10dp"
-                                android:src="@drawable/ic_brightness_low_white_24dp" />
-
-                            <TextView
-                                android:id="@+id/climaTxt"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:text="Clima"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-                    </android.support.v7.widget.CardView>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clipToPadding="false"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <android.support.v7.widget.CardView
-                        android:id="@+id/localId"
-                        android:text="Localização"
-                        android:layout_width="160dp"
-                        android:layout_height="190dp"
-                        android:layout_margin="10dp"
-                        android:clickable="true"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:focusable="true">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="64dp"
-                                android:layout_height="64dp"
-                                android:background="@drawable/cerclebackbroudverde"
-                                android:padding="10dp"
-                                android:src="@drawable/ic_location_on_white_24dp" />
-
-                            <TextView
-                                android:id="@+id/txtlocal"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:text="Localização"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-                    </android.support.v7.widget.CardView>
-                    <android.support.v7.widget.CardView
-                        android:id="@+id/calcId"
-                        android:text="Calculadora"
-                        android:layout_width="160dp"
-                        android:layout_height="190dp"
-                        android:layout_margin="10dp"
-                        android:clickable="true"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:focusable="true">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="64dp"
-                                android:layout_height="64dp"
-                                android:background="@drawable/cerclebackbrouddefault1"
-                                android:padding="10dp"
-                                android:src="@drawable/ic_exposure_plus_1_black_24dp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:text="Calculadora"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-                    </android.support.v7.widget.CardView>
-
-                </LinearLayout>
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-        </ScrollView>
+                <android.support.v7.widget.CardView
+                    android:id="@+id/contatoId"
+                    android:text="Lista de contatos"
+                    android:layout_width="160dp"
+                    android:layout_height="190dp"
+                    android:layout_margin="10dp"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:background="@drawable/cerclebackbroudpurple"
+                            android:padding="10dp"
+                            android:src="@drawable/ic_contacts_black_24dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Contato"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="160dp"
+                    android:layout_height="190dp"
+                    android:layout_margin="10dp"
+                    android:clickable="true"
+                    android:id="@+id/telefoneId"
+                    android:text="Realizar Ligação"
+                    android:foreground="?android:attr/selectableItemBackground">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        >
+
+                        <ImageView
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:background="@drawable/cerclebackbroudgreen"
+                            android:padding="10dp"
+                            android:src="@drawable/ic_call_black_24dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Telefone"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/alarmeId"
+                    android:text="Alarme"
+                    android:layout_width="160dp"
+                    android:layout_height="190dp"
+                    android:layout_margin="10dp"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:focusable="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:background="@drawable/cerclebackbroudyellow"
+                            android:padding="10dp"
+                            android:src="@drawable/ic_access_alarm_white_24dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Alarme"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/climaId"
+                    android:text="Clima"
+                    android:layout_width="160dp"
+                    android:layout_height="190dp"
+                    android:layout_margin="10dp"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:background="@drawable/cerclebackbroudpink"
+                            android:padding="10dp"
+                            android:src="@drawable/ic_brightness_low_white_24dp" />
+
+                        <TextView
+                            android:id="@+id/climaTxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Clima"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/localId"
+                    android:text="Localização"
+                    android:layout_width="160dp"
+                    android:layout_height="190dp"
+                    android:layout_margin="10dp"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:focusable="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:background="@drawable/cerclebackbroudverde"
+                            android:padding="10dp"
+                            android:src="@drawable/ic_location_on_white_24dp" />
+
+                        <TextView
+                            android:id="@+id/txtlocal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Localização"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    android:id="@+id/calcId"
+                    android:text="Calculadora"
+                    android:layout_width="160dp"
+                    android:layout_height="190dp"
+                    android:layout_margin="10dp"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:focusable="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:background="@drawable/cerclebackbrouddefault1"
+                            android:padding="10dp"
+                            android:src="@drawable/ic_exposure_plus_1_black_24dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Calculadora"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:clipToPadding="false"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.CardView
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:layout_width="340dp"
+            android:layout_height="60dp"
+            android:layout_margin="10dp">
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+                <ToggleButton
+                    android:id="@+id/btnFalar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#74a3ea"
+                    android:textColor="#FFFFFF"
+                    android:padding="10dp"
+                    android:drawableLeft="@drawable/ic_mic_white_24dp"
+                    />
+                <TextView
+                    android:id="@+id/txtFalar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"/>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
 </LinearLayout>
