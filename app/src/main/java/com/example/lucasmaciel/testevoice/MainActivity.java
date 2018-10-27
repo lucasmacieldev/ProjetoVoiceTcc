@@ -253,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                     falar = "Abrindo contato";
                     Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                     textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
-                    j = new Intent (this, Contato.class);
+                    j = new Intent (this, AllContacts.class);
                     startActivity (j);
                     break;
                 } else if (textGet.equals ("realizar ligações") || textGet.equals ("telefone") || textGet.equals ("ligar")) {
@@ -335,7 +335,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         Intent i;
         String falar = "";
         switch (v.getId ()){
-            case R.id.contatoId : i = new Intent (this, Contato.class);startActivity(i); onPause(); break;
+            case R.id.contatoId : i = new Intent (this, AllContacts.class);startActivity(i); onPause(); break;
             case R.id.telefoneId : i = new Intent (this, Telefone.class);startActivity(i); onPause(); break;
             case R.id.calcId : i = new Intent (this, Calc.class);startActivity(i); onPause(); break;
             case R.id.climaId :
