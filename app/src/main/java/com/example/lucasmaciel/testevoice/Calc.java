@@ -218,11 +218,7 @@ public class Calc extends Activity implements TextToSpeech.OnInitListener,Recogn
             }
         };
         for (int id : numbotoes) {
-
             findViewById(id).setOnClickListener(listener);
-
-
-
         }
     }
 

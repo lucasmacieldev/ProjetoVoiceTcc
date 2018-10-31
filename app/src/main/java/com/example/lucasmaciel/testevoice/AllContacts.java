@@ -69,7 +69,9 @@ public class AllContacts extends AppCompatActivity {
             }
 
             AllContactsAdapter contactAdapter = new AllContactsAdapter(contactVOList, getApplicationContext());
-            rvContacts.setLayoutManager(new LinearLayoutManager(this));
+            LinearLayoutManager llm = new LinearLayoutManager(this);
+            llm.setOrientation(LinearLayoutManager.HORIZONTAL);
+            rvContacts.setLayoutManager(llm);
             rvContacts.setAdapter(contactAdapter);
         }
     }
