@@ -65,7 +65,6 @@ public class AllContacts extends AppCompatActivity {
         btnVoltar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent j = new Intent (getApplicationContext (), MainActivity.class);
                 startActivity (j);
             }
