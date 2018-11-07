@@ -47,6 +47,7 @@ public class Telefone extends AppCompatActivity implements RecognitionListener {
     private ToggleButton toggleButton;
     private SpeechRecognizer speech = null;
     private TextView returnedText;
+    private Button btnVoltar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +118,26 @@ public class Telefone extends AppCompatActivity implements RecognitionListener {
             }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+        });
+
+
+        btnVoltar = (Button) findViewById (R.id.btnVoltar);
+        btnVoltar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent j = new Intent (getApplicationContext (), MainActivity.class);
+                startActivity (j);
+            }
+        });
+
+        btnVoltar.setOnLongClickListener(new View.OnLongClickListener() {
+            public boolean onLongClick(View v) {
+                String falar = "Voltar";
+                Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                return true;
             }
         });
     }

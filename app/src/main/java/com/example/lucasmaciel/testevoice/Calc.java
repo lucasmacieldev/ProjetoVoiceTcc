@@ -41,7 +41,7 @@ public class Calc extends Activity implements TextToSpeech.OnInitListener,Recogn
 
     private int[] opebotoes = {R.id.butmais, R.id.butmen, R.id.butmult, R.id.butdiv, R.id.butponto};
 
-    private Button btnmic;
+    private Button btnmic, btnVoltar;
 
     private boolean ultnumero;
 
@@ -116,6 +116,24 @@ public class Calc extends Activity implements TextToSpeech.OnInitListener,Recogn
         });
 
 
+        btnVoltar = (Button) findViewById (R.id.btnVoltar);
+        btnVoltar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent j = new Intent (getApplicationContext (), MainActivity.class);
+                startActivity (j);
+            }
+        });
+
+        btnVoltar.setOnLongClickListener(new View.OnLongClickListener() {
+            public boolean onLongClick(View v) {
+                String falar = "Voltar";
+                Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                return true;
+            }
+        });
 
     }
 

@@ -17,6 +17,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class AllContacts extends AppCompatActivity {
     RecyclerView rvContacts;
     TextToSpeech textToSpeech;
     private String LOG_TAG = "VoiceRecognitionActivity";
+    private Button btnVoltar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,25 @@ public class AllContacts extends AppCompatActivity {
         rvContacts = (RecyclerView) findViewById(R.id.rvContacts);
 
         getAllContacts();
+
+        btnVoltar = (Button) findViewById (R.id.btnVoltar);
+        btnVoltar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent j = new Intent (getApplicationContext (), MainActivity.class);
+                startActivity (j);
+            }
+        });
+
+        btnVoltar.setOnLongClickListener(new View.OnLongClickListener() {
+            public boolean onLongClick(View v) {
+                String falar = "Voltar";
+                Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                return true;
+            }
+        });
     }
 
 
