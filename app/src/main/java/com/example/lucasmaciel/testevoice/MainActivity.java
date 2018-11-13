@@ -49,6 +49,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ToggleButton;
 
+import com.example.lucasmaciel.testevoice.genericalarmclock.alarmefunc;
 import com.example.lucasmaciel.testevoice.model1.*;
 
 import org.json.JSONArray;
@@ -267,7 +268,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                     falar = "Abrindo alarme";
                     Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                     textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
-                    j = new Intent (this, Alarme.class);
+                    j = new Intent (this, alarmefunc.class);
                     startActivity (j);
                     break;
                 } else if (textGet.equals ("clima") || textGet.equals ("tempo") || textGet.equals ("tempo hoje")) {
@@ -354,7 +355,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 JSONWeatherTask task = new JSONWeatherTask();
                 task.execute(new String[]{city});
                  break;
-            case R.id.alarmeId : i = new Intent (this, Alarme.class);startActivity(i); onPause(); break;
+            case R.id.alarmeId : i = new Intent (this, alarmefunc.class);startActivity(i); onPause(); break;
             case R.id.bateriaId :
                 falar = "Bateria em: " + bateriaVal.getText().toString();
                 Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();

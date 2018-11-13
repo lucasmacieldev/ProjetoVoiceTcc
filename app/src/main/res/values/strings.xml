@@ -1,3 +1,18 @@
 <resources>
-    <string name="app_name">teste voice</string>
+    <string name="app_name">Teste APP</string>
+    <string name="action_settings">Sobre</string>
+    <string name="explicacaoAdicionarAlarme">Clique aqui para adicionar um alarme</string>
+    <string name="textButton">Adicionar</string>
+    <string name="explicacaoCrudClock">Selecione Hora e os minutos para criar o Alarme</string>
+    <string name="avancar">Avançar</string>
+    <string name="concluir">Concluir</string>
+    <string name="excluir">Excluir Alarme</string>
+    <string name="todos">Todos os Dias</string>
+    <string name="erroGerencia">Erro ao tentar gerenciar o Alarme! Ex:</string>
+    <string name="alarmeExcluido">Alarme excluído com sucesso!</string>
+    <string name="alarmeCadastrado">Alarme cadastrado com sucesso!</string>
+    <string name="todosDias">Todos os dias</string>
+    <string name="acorda">Acorda Brother!</string>
+    <string name="pergunta">Alarme Despertando!</string>
+    <string name="sair">Sair</string>
 </resources>

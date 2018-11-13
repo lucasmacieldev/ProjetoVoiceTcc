@@ -9,6 +9,10 @@
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -36,6 +40,15 @@
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".genericalarmclock.alarmefunc"></activity>
+        <activity android:name=".genericalarmclock.ui.AlarmManagerActivity"></activity>
+        <activity android:name=".genericalarmclock.ui.WakeUpTheUserActivity"></activity>
+
+        <service
+            android:name=".genericalarmclock.core.AlarmService"
+            android:enabled="true" />
+        <receiver android:name=".genericalarmclock.core.AlarmReceiver" />
 
     </application>
 
