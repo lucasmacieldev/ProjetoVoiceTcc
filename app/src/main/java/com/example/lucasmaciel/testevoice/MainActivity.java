@@ -303,29 +303,41 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                     startActivity (j);
                     break;
                 }else if(textGet.equals ("local") || textGet.equals ("onde estou") || textGet.equals ("localização") || textGet.equals ("nome da rua") || textGet.equals ("rua")){
-                    GPSTracker gps = new GPSTracker(MainActivity.this);
-
-                    double lat = gps.getLatitude();
-                    double lng = gps.getLongitude();
-                    geocoder = new Geocoder(this, Locale.getDefault());// Here 1 represent max location result to returned, by documents it recommended 1 to 5
                     try {
+                        gps = new GPSTracker(MainActivity.this);
+
+                        lat = gps.getLatitude();
+                        lng = gps.getLongitude();
+
+                        geocoder = new Geocoder(this, Locale.getDefault());
                         addresses = geocoder.getFromLocation (lat, lng, 1);
+
+                        String address = addresses.get(0).getThoroughfare () + " numero " + addresses.get(0).getSubThoroughfare () + " cep " + addresses.get(0).getPostalCode ();
+                        //String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                        //city = addresses.get(0).getLocality();
+                        //String state = addresses.get(0).getAdminArea();
+                        //String country = addresses.get(0).getCountryName();
+                        //String postalCode = addresses.get(0).getPostalCode();
+                        //String knownName = addresses.get(0).getFeatureName();
+
+                        textoLocal.setText("Localização atual: " + address);
+
+                        falar = "Localização atual: " +address;
+                        Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                        textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
                     } catch (IOException e) {
+                        falar = "Sem sinal de internet ou sem permissão de localização e internet neste aplicativo";
+                        Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                        textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
                         e.printStackTrace ();
                     }
-                    String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-                    String city = addresses.get(0).getLocality();
-                    String abc = addresses.get(0).getFeatureName ();
-                    String state = addresses.get(0).getAdminArea();
-                    String country = addresses.get(0).getCountryName();
-                    String postalCode = addresses.get(0).getPostalCode();
-                    String knownName = addresses.get(0).getFeatureName();
-
-                    textoLocal.setText("Localização atual: " + address);
-
-                    falar = "Localização atual: " +address;
-                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
-                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                    catch (Exception e)
+                    {
+                        falar = "Sem sinal de internet ou sem permissão de internet e localização neste aplicativo";
+                        Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                        textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                        e.printStackTrace ();
+                    }
                     break;
 
                 }
@@ -340,20 +352,23 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             case R.id.telefoneId : i = new Intent (this, Telefone.class);startActivity(i); onPause(); break;
             case R.id.calcId : i = new Intent (this, Calc.class);startActivity(i); onPause(); break;
             case R.id.climaId :
+                try {
                 gps = new GPSTracker(MainActivity.this);
-
                 double lat = gps.getLatitude();
                 double lng = gps.getLongitude();
-                geocoder = new Geocoder(this, Locale.getDefault());// Here 1 represent max location result to returned, by documents it recommended 1 to 5
-                try {
-                    addresses = geocoder.getFromLocation (lat, lng, 1);
-                } catch (IOException e) {
+                geocoder = new Geocoder(this, Locale.getDefault());// Here 1 represent max location result to returned, by documents it recommended 1 to 5addresses = geocoder.getFromLocation (lat, lng, 1);
+                    city = addresses.get(0).getLocality();
+                    JSONWeatherTask task = new JSONWeatherTask();
+                    task.execute(new String[]{city});
+
+                } catch (Exception e) {
+                    falar = "Sem sinal de internet ou sem permissão de internet ou localização neste aplicativo";
+                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
                     e.printStackTrace ();
                 }
 
-                city = addresses.get(0).getLocality();
-                JSONWeatherTask task = new JSONWeatherTask();
-                task.execute(new String[]{city});
+
                  break;
             case R.id.alarmeId : i = new Intent (this, alarmefunc.class);startActivity(i); onPause(); break;
             case R.id.bateriaId :
@@ -364,39 +379,42 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 horarioEData();
                 break;
             case R.id.localId :
-                /*
-                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    return;
-                }
-                Location myLocation = locationManager.getLastKnownLocation(provider);
-                lat = myLocation.getLatitude();
-                lng = myLocation.getLongitude();
-                new GetAddress().execute(String.format("%.4f,%.4f",lat,lng));
-                */
-                 gps = new GPSTracker(MainActivity.this);
-
-                 lat = gps.getLatitude();
-                 lng = gps.getLongitude();
-                geocoder = new Geocoder(this, Locale.getDefault());// Here 1 represent max location result to returned, by documents it recommended 1 to 5
                 try {
+                    gps = new GPSTracker(MainActivity.this);
+
+                    lat = gps.getLatitude();
+                    lng = gps.getLongitude();
+
+                    geocoder = new Geocoder(this, Locale.getDefault());
                     addresses = geocoder.getFromLocation (lat, lng, 1);
+
+                    String address = addresses.get(0).getThoroughfare () + " numero " + addresses.get(0).getSubThoroughfare () + " cep " + addresses.get(0).getPostalCode ();
+                    //String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                    //city = addresses.get(0).getLocality();
+                    //String state = addresses.get(0).getAdminArea();
+                    //String country = addresses.get(0).getCountryName();
+                    //String postalCode = addresses.get(0).getPostalCode();
+                    //String knownName = addresses.get(0).getFeatureName();
+
+                    textoLocal.setText("Localização atual: " + address);
+
+                    falar = "Localização atual: " +address;
+                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
                 } catch (IOException e) {
+                    falar = "Sem sinal de internet ou sem permissão de localização ou internet neste aplicativo";
+                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
                     e.printStackTrace ();
                 }
-                String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-                city = addresses.get(0).getLocality();
-                String state = addresses.get(0).getAdminArea();
-                String country = addresses.get(0).getCountryName();
-                String postalCode = addresses.get(0).getPostalCode();
-                String knownName = addresses.get(0).getFeatureName();
+                    catch (Exception e)
+                    {
+                        falar = "Sem sinal de internet ou sem permissão de internet ou localização neste aplicativo";
+                        Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                        textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                        e.printStackTrace ();
+                    }
 
-
-
-                textoLocal.setText("Localização atual: " + address);
-
-                falar = "Localização atual: " +address;
-                Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
-                textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
                 break;
             default:break;
         }
