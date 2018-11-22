@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.lucasmaciel.testevoice.R;
 import com.example.lucasmaciel.testevoice.genericalarmclock.adapters.WeekListAdapter;
+import com.example.lucasmaciel.testevoice.genericalarmclock.alarmefunc;
 import com.example.lucasmaciel.testevoice.genericalarmclock.core.AlarmReceiver;
 import com.example.lucasmaciel.testevoice.genericalarmclock.model.Alarm;
 import com.example.lucasmaciel.testevoice.genericalarmclock.model.WeekInformation;
@@ -116,6 +117,10 @@ public class AlarmManagerActivity extends AppCompatActivity
                     Toast.LENGTH_LONG).show();
         }
         realm.commitTransaction();
+
+        Intent j = new Intent (this, alarmefunc.class);
+        startActivity (j);
+
         this.finish();
     }
     private void criaIdSeNecessario() {
@@ -129,6 +134,7 @@ public class AlarmManagerActivity extends AppCompatActivity
             vo_AlarmGeral.set_id(finalId);
         }
     }
+
     public void excluiAlarme(View v)
     {
         try

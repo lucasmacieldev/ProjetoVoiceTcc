@@ -1,35 +1,135 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+ >
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:text="@string/explicacaoAdicionarAlarme"
-            android:paddingLeft="16dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView2" />
-
-        <Button
-            android:text="@string/textButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="adicionarAlarme"
-            android:id="@+id/button2" />
-
-    </LinearLayout>
-
-    <GridView
-        android:id="@+id/lstAlarmesCadastrados"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="2"></GridView>
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:gravity="center"
+        android:id="@+id/ll">
+        <LinearLayout
+            android:clipToPadding="false"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.CardView
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:layout_width="340dp"
+                android:layout_height="60dp"
+                android:layout_margin="10dp">
+                <LinearLayout
 
-</LinearLayout>
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <Button
+                        android:id="@+id/btnVoltar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#e63e49"
+                        android:textColor="#FFFFFF"
+                        android:padding="10dp"
+                        android:drawableLeft="@drawable/ic_reply_black_24dp"
+                        android:text="Voltar"
+                        />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:clipToPadding="false"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.CardView
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:layout_width="340dp"
+                android:layout_height="60dp"
+                android:layout_margin="10dp">
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <Button
+                        android:onClick="adicionarAlarme"
+                        android:id="@+id/button2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#1e9f2d"
+                        android:textColor="#FFFFFF"
+                        android:padding="10dp"
+                        android:drawableLeft="@drawable/ic_add_circle_outline_black_24dp"
+                        android:text="Novo alarme"
+                        />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+
+
+        <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <GridView
+                    android:id="@+id/lstAlarmesCadastrados"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:numColumns="2"></GridView>
+            </LinearLayout>
+        </ScrollView>
+        <LinearLayout
+        android:clipToPadding="false"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.CardView
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:layout_width="340dp"
+            android:layout_height="60dp"
+            android:layout_margin="10dp">
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+                <ToggleButton
+                    android:id="@+id/btnFalar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#74a3ea"
+                    android:textColor="#FFFFFF"
+                    android:padding="10dp"
+                    android:drawableLeft="@drawable/ic_mic_white_24dp"
+                    />
+                <TextView
+                    android:id="@+id/txtFalar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"/>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
