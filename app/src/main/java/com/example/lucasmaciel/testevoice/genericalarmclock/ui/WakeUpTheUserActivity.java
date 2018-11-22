@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.lucasmaciel.testevoice.MainActivity;
 import com.example.lucasmaciel.testevoice.R;
+import com.example.lucasmaciel.testevoice.genericalarmclock.alarmefunc;
 import com.example.lucasmaciel.testevoice.genericalarmclock.model.DeezerInformation;
 
 /**
@@ -20,7 +23,7 @@ public class WakeUpTheUserActivity extends AppCompatActivity
 {
     private DeezerInformation vo_despertador;
     private TextView txtResultado;
-    private Button pausar;
+    private CardView pausar;
 
     private int idCorreto;
     private MediaPlayer mediaPlayer;
@@ -32,7 +35,7 @@ public class WakeUpTheUserActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wakeuptheuser);
 
-        pausar = (Button) findViewById(R.id.btnPausar);
+        pausar = (CardView) findViewById(R.id.btnPausar);
         txtResultado = (TextView) findViewById(R.id.txtResultado);
         vo_despertador = new DeezerInformation();
 
@@ -43,13 +46,16 @@ public class WakeUpTheUserActivity extends AppCompatActivity
         mediaPlayer.start();
         mediaPlayer.setLooping(true);
 
-        Toast.makeText(getApplicationContext (), "ALARM!! ALARM!!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext (), "Alarme!", Toast.LENGTH_SHORT).show();
 
         findViewById(R.id.btnPausar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Stop alarm manager
                 stopPlaying();
+
+                Intent j = new Intent (getApplicationContext (), alarmefunc.class);
+                startActivity (j);
             }
         });
     }

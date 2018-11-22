@@ -46,6 +46,7 @@ public class alarmefunc extends AppCompatActivity implements RecognitionListener
     private Intent recognizerIntent;
     private TextView returnedText;
     private Button button2;
+    private Alarm vo_AlarmGeral;
 
     @Override
     public void onStart()
@@ -171,6 +172,8 @@ public class alarmefunc extends AppCompatActivity implements RecognitionListener
             }
         });
 
+        //AQUI PORRA
+        vo_AlarmGeral = realm.where(Alarm.class).equalTo("_hora",17).findFirst();
 
         list.setOnItemLongClickListener (new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView parent, View view, int position, long id) {
@@ -207,7 +210,7 @@ public class alarmefunc extends AppCompatActivity implements RecognitionListener
     }
     public void adicionarAlarme(View v)
     {
-        abreAlarme(-1);
+        abreAlarme( -1);
     }
     private void abreAlarme(int id_Alarme)
     {
@@ -338,8 +341,13 @@ public class alarmefunc extends AppCompatActivity implements RecognitionListener
 
                 final int size = list.getChildCount();
                 for(int h = 0; h < size; h++) {
+
                     ViewGroup gridChild = (ViewGroup) list.getChildAt(h);
                     int childSize = gridChild.getChildCount();
+
+                    final View child = list.getChildAt (h);
+
+
                     for(int k = 0; k < childSize; k++) {
                         if( gridChild.getChildAt(k) instanceof TextView ) {
                             gridChild.getChildAt(k).setVisibility(View.GONE);
