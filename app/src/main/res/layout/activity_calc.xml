@@ -347,13 +347,10 @@
             android:layout_marginLeft="1dp"
             android:layout_span="1"
             android:background="#ECEFF1"
-            android:text="MIC"
             android:textColor="#000000"
             android:textSize="35dp"
             android:typeface="monospace"
             />
-
-
     </TableRow>
 
 

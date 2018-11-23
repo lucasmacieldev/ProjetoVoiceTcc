@@ -651,8 +651,8 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         protected void onPostExecute(Weather weather) {
             super.onPostExecute (weather);
 
-            String textoGraus = "Clima: " + Math.round ((weather.temperature.getTemp () - 273.15)) + "Graus"
-                    + "  com umidade de: " + weather.currentCondition.getHumidity() + "%";
+            String textoGraus = "Clima: " + Math.round ((weather.temperature.getTemp () - 273.15)) + " Graus "
+                    + " com umidade de: " + weather.currentCondition.getHumidity() + "%";
             txtClima.setText (textoGraus);
 
             Toast.makeText(getApplicationContext(), textoGraus, Toast.LENGTH_SHORT).show();

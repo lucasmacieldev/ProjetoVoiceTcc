@@ -11,6 +11,7 @@ import android.speech.tts.TextToSpeech;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -85,6 +86,8 @@ public class Calc extends Activity implements TextToSpeech.OnInitListener,Recogn
         this.textView = (TextView) findViewById(R.id.textView);
         numerosclique();
         operadoresclique();
+        falarnumero();
+        falaroperadores();
 
         tts = new TextToSpeech(this, this);
 
@@ -104,16 +107,6 @@ public class Calc extends Activity implements TextToSpeech.OnInitListener,Recogn
         recognizerIntent.putExtra (RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
         recognizerIntent.putExtra (RecognizerIntent.EXTRA_MAX_RESULTS, 3);
-
-
-
-        findViewById(R.id.butmic).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                speech.startListening (recognizerIntent);
-                Toast.makeText(getApplicationContext(), "ouvindo", Toast.LENGTH_SHORT).show();
-            }
-        });
 
 
         btnVoltar = (Button) findViewById (R.id.btnVoltar);
@@ -136,8 +129,6 @@ public class Calc extends Activity implements TextToSpeech.OnInitListener,Recogn
         });
 
     }
-
-
 
 
     public void onClick(View v){
@@ -230,7 +221,6 @@ public class Calc extends Activity implements TextToSpeech.OnInitListener,Recogn
 
                 }
                 ultnumero = true;
-                Log.i(tag, "speakNow [" +button.getText().toString() + "]");
                 tts.speak(button.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
 
             }
@@ -240,14 +230,96 @@ public class Calc extends Activity implements TextToSpeech.OnInitListener,Recogn
         }
     }
 
+    private void falarnumero() {
+        View.OnLongClickListener listener = new View.OnLongClickListener () {
+            @Override
+            public boolean onLongClick(View v) {
+                Button button = (Button) v;
+                tts.speak(button.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
+                return false;
+            }
+        };
+        for (int id : numbotoes) {
+            findViewById(id).setOnLongClickListener (listener);
+        }
+    }
+
+    private void falaroperadores() {
+        View.OnLongClickListener listener = new View.OnLongClickListener () {
+            @Override
+            public boolean onLongClick(View v) {
+                Button button = (Button) v;
+                tts.speak(button.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
+                return false;
+            }
+        };
+        for (int id : numbotoes) {
+            findViewById(id).setOnLongClickListener (listener);
+        }
+
+
+        findViewById(R.id.butlimpa).setOnLongClickListener(new View.OnLongClickListener () {
+            @Override
+            public boolean onLongClick(View v) {
+                tts.speak( "limpar", TextToSpeech.QUEUE_FLUSH, null);
+                return true;
+            }
+        });
+
+        findViewById(R.id.butdiv).setOnLongClickListener(new View.OnLongClickListener () {
+            @Override
+            public boolean onLongClick(View v) {
+                tts.speak( "Divizão", TextToSpeech.QUEUE_FLUSH, null);
+                return true;
+            }
+        });
+
+        findViewById(R.id.butmais).setOnLongClickListener(new View.OnLongClickListener () {
+            @Override
+            public boolean onLongClick(View v) {
+                tts.speak( "Soma", TextToSpeech.QUEUE_FLUSH, null);
+                return true;
+            }
+        });
+
+        findViewById(R.id.butponto).setOnLongClickListener(new View.OnLongClickListener () {
+            @Override
+            public boolean onLongClick(View v) {
+                tts.speak( "Ponto", TextToSpeech.QUEUE_FLUSH, null);
+                return true;
+            }
+        });
+
+        findViewById(R.id.butmult).setOnLongClickListener(new View.OnLongClickListener () {
+            @Override
+            public boolean onLongClick(View v) {
+                tts.speak( "Multiplicação", TextToSpeech.QUEUE_FLUSH, null);
+                return true;
+            }
+        });
+
+        findViewById(R.id.butmen).setOnLongClickListener(new View.OnLongClickListener () {
+            @Override
+            public boolean onLongClick(View v) {
+                tts.speak( "Subtração", TextToSpeech.QUEUE_FLUSH, null);
+                return true;
+            }
+        });
+
+        findViewById(R.id.butigual).setOnLongClickListener(new View.OnLongClickListener () {
+            @Override
+            public boolean onLongClick(View v) {
+                tts.speak( "Resultado", TextToSpeech.QUEUE_FLUSH, null);
+                return true;
+            }
+        });
+    }
 
     private void operadoresclique() {
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (ultnumero && !estadoerro) {
-
-
                     Button button = (Button) v;
                     textView.setText(textView.getText()+""+button.getText());
                     ultnumero = false;
@@ -298,9 +370,6 @@ public class Calc extends Activity implements TextToSpeech.OnInitListener,Recogn
 
             }
         });
-
-
-
     }
 
 

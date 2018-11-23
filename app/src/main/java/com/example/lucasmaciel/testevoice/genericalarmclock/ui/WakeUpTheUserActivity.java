@@ -4,6 +4,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.View;
@@ -24,7 +25,7 @@ public class WakeUpTheUserActivity extends AppCompatActivity
     private DeezerInformation vo_despertador;
     private TextView txtResultado;
     private CardView pausar;
-
+    private Button btnVoltar;
     private int idCorreto;
     private MediaPlayer mediaPlayer;
 
@@ -58,6 +59,7 @@ public class WakeUpTheUserActivity extends AppCompatActivity
                 startActivity (j);
             }
         });
+
     }
 
     private void stopPlaying() {

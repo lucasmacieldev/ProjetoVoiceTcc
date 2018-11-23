@@ -1,6 +1,22 @@
 package com.example.lucasmaciel.testevoice;
 
-public class ContactVO {
+import android.content.ContentProviderOperation;
+import android.content.ContentProviderResult;
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.OperationApplicationException;
+import android.net.Uri;
+import android.os.RemoteException;
+import android.provider.ContactsContract;
+import android.support.v7.app.AppCompatActivity;
+
+import java.util.ArrayList;
+
+import io.realm.internal.Util;
+
+public class ContactVO extends AppCompatActivity {
     private String ContactImage;
     private String ContactName;
     private String ContactNumber;
@@ -28,4 +44,5 @@ public class ContactVO {
     public void setContactNumber(String contactNumber) {
         ContactNumber = contactNumber;
     }
+
 }

@@ -179,15 +179,35 @@ public class alarmefunc extends AppCompatActivity implements RecognitionListener
             public boolean onItemLongClick(AdapterView parent, View view, int position, long id) {
                 String horarioAlarme = (String) ((TextView) view.findViewById(R.id.txtHorarioAlarme)).getText();
                 String diasAlarme = (String) ((TextView) view.findViewById(R.id.txtDiasMarcados)).getText();
-
+                String[] separated = diasAlarme.replace (".", " ").split (" ");
+                String diasAjustados = "";
                 String falar;
+
+                for(int i = 0; i < separated.length; i++){
+                    String valorDiaSemana = separated[i];
+                    if(valorDiaSemana.equals ("Seg")){
+                        diasAjustados += " Segunda";
+                    }else if(valorDiaSemana.equals ("Ter")){
+                        diasAjustados += " Terça";
+                    }else if(valorDiaSemana.equals ("Qua")){
+                        diasAjustados += " Quarta";
+                    }else if(valorDiaSemana.equals ("Quin")){
+                        diasAjustados += " Quinta";
+                    }else if(valorDiaSemana.equals ("Sex")){
+                        diasAjustados += " Sexta";
+                    }else if(valorDiaSemana.equals ("Sab")){
+                        diasAjustados += " Sabádo";
+                    }else if(valorDiaSemana.equals ("Dom")){
+                        diasAjustados += " Domingo";
+                    }
+                }
 
                 if(diasAlarme.equals (null) || diasAlarme.equals ("")) {
                     falar = "Horário do alarme " + horarioAlarme + " sem dia definido";
                 }else if(diasAlarme.equals ("Todos os dias")){
                     falar = "Horário do alarme " + horarioAlarme + " agendado para todos os dias";
                 }else{
-                    falar = "Horário do alarme " +horarioAlarme + " nos dias " + diasAlarme;
+                    falar = "Horário do alarme " +horarioAlarme + " nos dias " + diasAjustados;
                 }
 
                 Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
