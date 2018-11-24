@@ -45,6 +45,8 @@ public class cadastrarcontato extends AppCompatActivity implements RecognitionLi
     private ToggleButton toggleButton;
     private SpeechRecognizer speech = null;
     TextInputEditText nomedocontato,  telefone;
+    private int valorTelefone = 0;
+    private String valorTelefoneNumero="";
 
     private Button btnVoltar, btnCadastrarNovo;
 
@@ -84,6 +86,46 @@ public class cadastrarcontato extends AppCompatActivity implements RecognitionLi
             public void onCheckedChanged(CompoundButton buttonView,
                                          boolean isChecked) {
                 if (isChecked) {
+                    nomedocontato = (TextInputEditText) findViewById(R.id.nomeContato);
+                    telefone =(TextInputEditText) findViewById(R.id.telefonecontato);
+
+                    //String nomeContato = nomedocontato.getText().toString ();
+                    //String numeroContato = telefone.getText().toString ();
+
+                    if(valorTelefone == 0) {
+                        String falar = "Responda qual o tipo de contato sendo residencial ou celular após o sinal";
+                        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                        try {
+                            Thread.sleep (3000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace ();
+                        }
+                    }
+
+                    if(nomedocontato.getText().toString ().equals ("") && valorTelefone != 0) {
+                        String falar = "Fale o nome do contato após o sinal";
+                        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                        try {
+                            Thread.sleep (3000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace ();
+                        }
+
+                    }
+
+                    if(!nomedocontato.getText().toString ().equals ("") && valorTelefone != 0) {
+                        String falar = "Fale um digito do numero por vez após o sinal";
+                        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                        try {
+                            Thread.sleep (3000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace ();
+                        }
+
+                    }
                     speech.startListening (recognizerIntent);
                 } else {
                     speech.stopListening ();
@@ -305,7 +347,59 @@ public class cadastrarcontato extends AppCompatActivity implements RecognitionLi
         for (String result : matches)
             text += result + "\n";
 
+        nomedocontato = (TextInputEditText) findViewById(R.id.nomeContato);
+        telefone =(TextInputEditText) findViewById(R.id.telefonecontato);
+
+        String nomeContato = nomedocontato.getText().toString ();
+        String numeroContato = telefone.getText().toString ();
+
+
+        if(valorTelefone == 0 && (valorTelefone != 8 || valorTelefone!=9)){
+            String valorNomeFalado = matches.get(0);
+
+            if(valorNomeFalado.equals ("residencial")){
+                valorTelefone = 8;
+            }else if(valorNomeFalado.equals ("celular")){
+                valorTelefone = 9;
+            }else{
+                valorTelefone = 0;
+            }
+            try {
+                Thread.sleep (3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace ();
+            }
+            toggleButton.setChecked (true);
+            return;
+        }
+
+        if(nomedocontato.getText().toString ().equals ("")){
+            String valorNomeFalado = matches.get(0);
+            nomedocontato.setText(valorNomeFalado);
+            try {
+                Thread.sleep (3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace ();
+            }
+            toggleButton.setChecked (true);
+        }else{
+            if(valorTelefone != 0){
+                valorTelefone--;
+                valorTelefoneNumero += matches.get (0);
+                telefone.setText (valorTelefoneNumero);
+                if(valorTelefone == 0){
+                    cadastrarNovoContato(numeroContato, nomeContato);
+                    speech.stopListening ();
+                }else{
+                    toggleButton.setChecked (true);
+                }
+
+            }
+        }
     }
+
+
+
 }
 
 

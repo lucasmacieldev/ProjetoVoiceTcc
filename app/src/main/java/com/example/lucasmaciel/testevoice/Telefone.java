@@ -226,7 +226,7 @@ public class Telefone extends AppCompatActivity implements RecognitionListener {
                         public void onLongItemClick(View view, int position) {
                             String nome = contactVOList.get (position).getContactName ();
                             String telefone = contactVOList.get (position).getContactNumber ();
-                            String falar = "nome do contato " + nome + " e o é telefone " + telefone;
+                            String falar = "Nome do contato " + nome + " e telefone " + telefone;
                             Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                             textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
                         }

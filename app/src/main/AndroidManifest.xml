@@ -22,19 +22,29 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Contato" />
-        <activity android:name=".Alarme" />
-        <activity android:name=".Clima" />
-        <activity android:name=".Calc" />
-        <activity android:name=".cadastrarcontato" />
-        <activity android:name=".Telefone"></activity>
-        <activity android:name=".AllContacts"></activity>
+        <activity android:name=".Contato"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Alarme"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Clima"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Calc"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".cadastrarcontato"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Telefone"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".AllContacts"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".detailcontato"
+            android:screenOrientation="portrait"></activity>
 
         <receiver android:name=".StartUpBootReceiver">
             <intent-filter>
@@ -43,9 +53,12 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".genericalarmclock.alarmefunc"></activity>
-        <activity android:name=".genericalarmclock.ui.AlarmManagerActivity"></activity>
-        <activity android:name=".genericalarmclock.ui.WakeUpTheUserActivity"></activity>
+        <activity android:name=".genericalarmclock.alarmefunc"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".genericalarmclock.ui.AlarmManagerActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".genericalarmclock.ui.WakeUpTheUserActivity"
+            android:screenOrientation="portrait"></activity>
 
         <service
             android:name=".genericalarmclock.core.AlarmService"

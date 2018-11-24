@@ -60,22 +60,59 @@
                     android:layout_height="match_parent">
                 </android.support.v7.widget.RecyclerView>
             </LinearLayout>
-        </ScrollView>
 
+        </ScrollView>
         <LinearLayout
             android:clipToPadding="false"
             android:gravity="center"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <android.support.v7.widget.CardView
                 android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:layout_width="340dp"
                 android:layout_height="60dp"
                 android:layout_margin="10dp">
-                <LinearLayout
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <Button
+                        android:id="@+id/btnCadCont"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#2c6818"
+                        android:textColor="#FFFFFF"
+                        android:padding="10dp"
+                        android:text="Cadastrar novo contato"
+                        />
+                    <TextView
+                        android:id="@+id/txtFalar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"/>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+        <LinearLayout
+            android:clipToPadding="false"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.CardView
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:layout_width="340dp"
+                android:layout_height="60dp"
+                android:layout_margin="10dp">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"

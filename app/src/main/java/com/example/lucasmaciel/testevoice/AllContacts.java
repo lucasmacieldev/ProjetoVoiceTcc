@@ -10,6 +10,7 @@ import android.content.ContentProviderResult;
 import android.content.OperationApplicationException;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.RemoteException;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
@@ -33,6 +34,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -50,7 +52,7 @@ public class AllContacts extends AppCompatActivity implements RecognitionListene
     RecyclerView rvContacts;
     TextToSpeech textToSpeech;
     private String LOG_TAG = "VoiceRecognitionActivity";
-    private Button btnVoltar;
+    private Button btnVoltar, cadContato;
     private Intent recognizerIntent;
     private ToggleButton toggleButton;
     private SpeechRecognizer speech = null;
@@ -140,6 +142,23 @@ public class AllContacts extends AppCompatActivity implements RecognitionListene
             }
         });
 
+        cadContato = (Button) findViewById (R.id.btnCadCont);
+        cadContato.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent j = new Intent (getApplicationContext (), cadastrarcontato.class);
+                startActivity (j);
+            }
+        });
+
+        cadContato.setOnLongClickListener(new View.OnLongClickListener() {
+            public boolean onLongClick(View v) {
+                String falar = "Cadastrar novo contato";
+                Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                return true;
+            }
+        });
 
     }
 
@@ -197,14 +216,59 @@ public class AllContacts extends AppCompatActivity implements RecognitionListene
                         @Override
                         public void onItemClick(View view, int position) {
                             Toast.makeText(getApplicationContext(), "Click Normal", Toast.LENGTH_SHORT).show();
+
+                            String name = contactVOList.get (position).getContactName ();
+                            String phone = contactVOList.get (position).getContactNumber ();
+
+                            Intent intent = new Intent(AllContacts.this, detailcontato.class);
+                            Bundle bundle = new Bundle();
+
+                            bundle.putString("nomecontato", name);
+                            bundle.putString("telefone", phone);
+                            intent.putExtras(bundle);
+
+                            startActivity(intent);
+                            /* DELETAR CONTATO DO CELULAR
+                            String name = contactVOList.get (position).getContactName ();
+                            String phone = contactVOList.get (position).getContactNumber ();
+
+                            Uri contactUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phone));
+                            Cursor cur = getApplication ().getContentResolver().query(contactUri, null, null, null, null);
+                            try {
+                                if (cur.moveToFirst()) {
+                                    do {
+                                        if (cur.getString(cur.getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME)).equalsIgnoreCase(name)) {
+                                            String lookupKey = cur.getString(cur.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
+                                            Uri uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookupKey);
+                                            getApplication ().getContentResolver().delete(uri, null, null);
+
+                                        }
+
+                                    } while (cur.moveToNext());
+                                }
+
+                            } catch (Exception e) {
+                                System.out.println(e.getStackTrace());
+                            } finally {
+                                cur.close();
+                            }*/
+
                         }
 
                         @Override
                         public void onLongItemClick(View view, int position) {
-                            Toast.makeText(getApplicationContext(), "Click Longo", Toast.LENGTH_SHORT).show();
+                            String nome = contactVOList.get (position).getContactName ();
+                            String telefone = contactVOList.get (position).getContactNumber ();
+                            String falar = "Nome do contato " + nome + " e telefone " + telefone;
+                            Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                            textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
                         }
+
+
                     })
             );
+
+
         }
 
     }
