@@ -347,6 +347,19 @@ public class cadastrarcontato extends AppCompatActivity implements RecognitionLi
         for (String result : matches)
             text += result + "\n";
 
+        if(matches.get(0).equals("voltar")){
+            String falar = "Voltando";
+            Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+            textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+            try {
+                Thread.sleep (3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace ();
+            }
+            Intent j = new Intent (getApplicationContext (), AllContacts.class);
+            startActivity (j);
+        }
+
         nomedocontato = (TextInputEditText) findViewById(R.id.nomeContato);
         telefone =(TextInputEditText) findViewById(R.id.telefonecontato);
 

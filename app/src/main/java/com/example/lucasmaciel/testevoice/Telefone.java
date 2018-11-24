@@ -340,9 +340,17 @@ public class Telefone extends AppCompatActivity implements RecognitionListener {
         for (String result : matches)
             text += result + "\n";
 
-        returnedText.setText (text);
+        //returnedText.setText (text);
 
-        comandoVoz (matches);
+        if(matches.get (0).toString ().equals("voltar")){
+            String falar = "Voltando";
+            Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+            textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+            Intent j = new Intent (getApplicationContext (), MainActivity.class);
+            startActivity (j);
+        }else{
+            comandoVoz (matches);
+        }
     }
 
     public void comandoVoz(ArrayList matches) {

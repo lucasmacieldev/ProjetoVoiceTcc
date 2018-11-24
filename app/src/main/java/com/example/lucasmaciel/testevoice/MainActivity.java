@@ -254,6 +254,13 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                     falar = "Abrindo contato";
                     Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                     textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+
+                    try {
+                        Thread.sleep (3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace ();
+                    }
+
                     j = new Intent (this, AllContacts.class);
                     startActivity (j);
                     break;
@@ -261,6 +268,13 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                     falar = "Abrindo telefone";
                     Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                     textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+
+                    try {
+                        Thread.sleep (3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace ();
+                    }
+
                     j = new Intent (this, Telefone.class);
                     startActivity (j);
                     break;
@@ -268,6 +282,11 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                     falar = "Abrindo alarme";
                     Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                     textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                    try {
+                        Thread.sleep (3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace ();
+                    }
                     j = new Intent (this, alarmefunc.class);
                     startActivity (j);
                     break;
@@ -301,6 +320,11 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                     falar = "Calculadora";
                     Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                     textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                    try {
+                        Thread.sleep (3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace ();
+                    }
                         j = new Intent (this, Calc.class);
                     startActivity (j);
                     break;
@@ -341,7 +365,11 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                         e.printStackTrace ();
                     }
                     break;
-
+                }else{
+                    falar = "Comando não encontrado, tente outro!";
+                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                    break;
                 }
             }
     }
@@ -350,9 +378,39 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         Intent i;
         String falar = "";
         switch (v.getId ()){
-            case R.id.contatoId : i = new Intent (this, AllContacts.class);startActivity(i); onPause(); break;
-            case R.id.telefoneId : i = new Intent (this, Telefone.class);startActivity(i); onPause(); break;
-            case R.id.calcId : i = new Intent (this, Calc.class);startActivity(i); onPause(); break;
+            case R.id.contatoId :
+                falar = "Abrindo contato";
+                Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+
+                try {
+                    Thread.sleep (3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace ();
+                }
+                i = new Intent (this, AllContacts.class);startActivity(i); onPause(); break;
+            case R.id.telefoneId :
+                falar = "Abrindo telefone";
+                Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+
+                try {
+                    Thread.sleep (3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace ();
+                }
+                i = new Intent (this, Telefone.class);startActivity(i); onPause(); break;
+            case R.id.calcId :
+                falar = "Abrindo calculadora";
+                Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+
+                try {
+                    Thread.sleep (3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace ();
+                }
+                i = new Intent (this, Calc.class);startActivity(i); onPause(); break;
             case R.id.climaId :
                 try {
                 gps = new GPSTracker(MainActivity.this);
@@ -372,7 +430,17 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
 
                  break;
-            case R.id.alarmeId : i = new Intent (this, alarmefunc.class);startActivity(i); onPause(); break;
+            case R.id.alarmeId :
+                falar = "Abrindo alarme";
+                Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+
+                try {
+                    Thread.sleep (3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace ();
+                }
+                i = new Intent (this, alarmefunc.class);startActivity(i); onPause(); break;
             case R.id.bateriaId :
                 falar = "Bateria em: " + bateriaVal.getText().toString();
                 Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();

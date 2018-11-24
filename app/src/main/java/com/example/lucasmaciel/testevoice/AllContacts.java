@@ -145,6 +145,15 @@ public class AllContacts extends AppCompatActivity implements RecognitionListene
         cadContato.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String falar = "Abrindo tela de cadastro";
+                Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                try {
+                    Thread.sleep (3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace ();
+                }
+
                 Intent j = new Intent (getApplicationContext (), cadastrarcontato.class);
                 startActivity (j);
             }
@@ -378,7 +387,10 @@ public class AllContacts extends AppCompatActivity implements RecognitionListene
                     Intent j = new Intent (this, cadastrarcontato.class);
                     startActivity (j);
                 }else if(textGet.equals ("voltar")){
-                    Intent j = new Intent (this, MainActivity.class);
+                    String falar = "Voltando";
+                    Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                    textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                    Intent j = new Intent (getApplicationContext (), MainActivity.class);
                     startActivity (j);
                 }else{
                     comandoVoz (matches);
