@@ -63,8 +63,7 @@ public class AllContacts extends AppCompatActivity implements RecognitionListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_contacts);
-
-        View decorView = getWindow().getDecorView();
+         View decorView = getWindow().getDecorView();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             decorView.setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_IMMERSIVE
@@ -161,7 +160,6 @@ public class AllContacts extends AppCompatActivity implements RecognitionListene
         });
 
     }
-
 
     private void getAllContacts() {
         final List<ContactVO> contactVOList = new ArrayList();
@@ -263,12 +261,8 @@ public class AllContacts extends AppCompatActivity implements RecognitionListene
                             Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                             textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
                         }
-
-
                     })
             );
-
-
         }
 
     }
@@ -377,20 +371,20 @@ public class AllContacts extends AppCompatActivity implements RecognitionListene
 
         for (int i = 0; i < matches.size (); i++) {
             String textGet = matches.get(i).toString().toLowerCase();
-                if(textGet.equals ("adicionar") || textGet.equals ("novo") || textGet.equals ("novo contato") || textGet.equals ("adicionar contato")){
+                if(textGet.equals ("adicionar novo contato") || textGet.equals ("adicionar") || textGet.equals ("novo") || textGet.equals ("novo contato") || textGet.equals ("adicionar contato")){
                     String falar = "Novo contato";
                     Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                     textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
                     Intent j = new Intent (this, cadastrarcontato.class);
                     startActivity (j);
-                }else if(textGet.equals ("Procurar contato")){
+                }else if(textGet.equals ("voltar")){
+                    Intent j = new Intent (this, MainActivity.class);
+                    startActivity (j);
+                }else{
                     comandoVoz (matches);
                 }
-
         }
     }
-
-
 
     public void comandoVoz(ArrayList matches) {
         String textGet = "";
@@ -452,7 +446,30 @@ public class AllContacts extends AppCompatActivity implements RecognitionListene
                     nomeRetuned = contactVO.getContactName().toLowerCase();
 
                     if (nomeRetuned.contains(textGet)) {
-                        //Realizar alguma ação
+                        String nome = "Abrindo contato " + contactVOList.get(r).getContactName ().toString ();
+                        Toast.makeText (getApplicationContext(), nome, Toast.LENGTH_SHORT).show ();
+                        textToSpeech.speak (nome, TextToSpeech.QUEUE_FLUSH, null);
+
+                        String name = contactVOList.get (r).getContactName ();
+                        String phone = contactVOList.get (r).getContactNumber ();
+
+                        Intent intent = new Intent(AllContacts.this, detailcontato.class);
+                        Bundle bundle = new Bundle();
+
+                        bundle.putString("nomecontato", name);
+                        bundle.putString("telefone", phone);
+                        intent.putExtras(bundle);
+
+                        try {
+                            Thread.sleep (3000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace ();
+                        }
+
+                        startActivity(intent);
+
+
+                        serachNotFound = true;
                     }
                     if(serachNotFound){
                         break;
@@ -464,7 +481,7 @@ public class AllContacts extends AppCompatActivity implements RecognitionListene
             }
 
             if(serachNotFound == false){
-                String encontrado = "Contato não encontrado, tente outro";
+                String encontrado = "Contato ou função não encontrado, tente novamente";
                 Toast.makeText (getApplicationContext(), encontrado, Toast.LENGTH_SHORT).show ();
                 textToSpeech.speak (encontrado, TextToSpeech.QUEUE_FLUSH, null);
             }

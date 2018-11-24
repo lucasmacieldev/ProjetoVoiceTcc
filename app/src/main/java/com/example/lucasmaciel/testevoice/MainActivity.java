@@ -192,9 +192,9 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
         returnedText.addTextChangedListener (new TextWatcher () {
             public void afterTextChanged(Editable s) {
-                String falar = "Repetindo: " + returnedText.getText ().toString ();
-                Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
-                textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                //String falar = "Repetindo: " + returnedText.getText ().toString ();
+                //Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                //textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -272,20 +272,22 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                     startActivity (j);
                     break;
                 } else if (textGet.equals ("clima") || textGet.equals ("tempo") || textGet.equals ("tempo hoje")) {
-                    gps = new GPSTracker(MainActivity.this);
-
-                    double lat = gps.getLatitude();
-                    double lng = gps.getLongitude();
-                    geocoder = new Geocoder(this, Locale.getDefault());// Here 1 represent max location result to returned, by documents it recommended 1 to 5
                     try {
+                        gps = new GPSTracker(MainActivity.this);
+                        double lat = gps.getLatitude();
+                        double lng = gps.getLongitude();
+                        geocoder = new Geocoder(this, Locale.getDefault());// Here 1 represent max location result to returned, by documents it recommended 1 to 5addresses = geocoder.getFromLocation (lat, lng, 1);
                         addresses = geocoder.getFromLocation (lat, lng, 1);
-                    } catch (IOException e) {
+                        city = addresses.get(0).getLocality();
+                        JSONWeatherTask task = new JSONWeatherTask();
+                        task.execute(new String[]{city});
+
+                    } catch (Exception e) {
+                        falar = "Sem sinal de internet ou sem permissão de internet ou localização neste aplicativo";
+                        Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                        textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
                         e.printStackTrace ();
                     }
-
-                    city = addresses.get(0).getLocality();
-                    JSONWeatherTask task = new JSONWeatherTask();
-                    task.execute(new String[]{city});
                     break;
                 } else if(textGet.equals ("bateria")) {
                     falar = "Bateria em: " + bateriaVal.getText ().toString ();

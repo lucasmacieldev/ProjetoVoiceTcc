@@ -310,27 +310,44 @@ public class detailcontato extends AppCompatActivity implements RecognitionListe
 
         for (int i = 0; i < matches.size (); i++) {
             String textGet = matches.get(i).toString().toLowerCase();
-            if(textGet.equals ("adicionar") || textGet.equals ("novo") || textGet.equals ("novo contato") || textGet.equals ("adicionar contato")){
-                String falar = "Novo contato";
+            if(textGet.equals ("voltar")){
+                Intent j = new Intent (this, AllContacts.class);
+                startActivity (j);
+            }else if(textGet.equals ("deletar") || textGet.equals ("apagar") || textGet.equals ("excluir")){
+                Intent intent = getIntent();
+                Bundle bundle = intent.getExtras();
+
+                nomecontato = bundle.getString("nomecontato");
+                telefone = bundle.getString("telefone");
+
+                TextView txtResultado1 = (TextView) findViewById(R.id.nomeContato);
+                TextView txtResultado2 = (TextView) findViewById(R.id.telefoneDeContato);
+
+                txtResultado1.setText(nomecontato);
+                txtResultado2.setText(telefone);
+
+                apagarContato(nomecontato, telefone);
+            }else if(textGet.equals ("detalhe") || textGet.equals ("detalhe deste contato")){
+                Intent intent = getIntent();
+                Bundle bundle = intent.getExtras();
+
+                nomecontato = bundle.getString("nomecontato");
+                telefone = bundle.getString("telefone");
+
+                TextView txtResultado1 = (TextView) findViewById(R.id.nomeContato);
+                TextView txtResultado2 = (TextView) findViewById(R.id.telefoneDeContato);
+
+                txtResultado1.setText(nomecontato);
+                txtResultado2.setText(telefone);
+
+                String falar = "Nome do contato "+nomecontato+" com numero "+telefone;
                 Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                 textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
-                Intent j = new Intent (this, cadastrarcontato.class);
-                startActivity (j);
-            }else if(textGet.equals ("Procurar contato")){
-                comandoVoz (matches);
             }
-
         }
     }
 
 
 
-    public void comandoVoz(ArrayList matches) {
-        String textGet = "";
-        Intent j;
-        String falar = "";
-
-
-    }
 }
 
