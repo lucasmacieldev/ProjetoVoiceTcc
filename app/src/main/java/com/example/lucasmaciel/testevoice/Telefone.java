@@ -2,6 +2,7 @@ package com.example.lucasmaciel.testevoice;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Geocoder;
 import android.location.LocationListener;
@@ -37,6 +38,8 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import static com.example.lucasmaciel.testevoice.MainActivity.PREFS_NAME;
 
 public class Telefone extends AppCompatActivity implements RecognitionListener {
 
@@ -140,6 +143,9 @@ public class Telefone extends AppCompatActivity implements RecognitionListener {
                 return true;
             }
         });
+
+
+
 
         textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override

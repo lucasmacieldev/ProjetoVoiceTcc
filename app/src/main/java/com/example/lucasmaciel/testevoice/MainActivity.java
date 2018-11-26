@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -77,6 +78,9 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     private CardView contato, ligar, clima, alarme, bateria, horadata, local, calculadora;
     LocationManager locationManager;
     String provider;
+
+    public static final String PREFS_NAME = "ConfigVoz";
+    private boolean vozenable;
 
     Geocoder geocoder;
     List<Address> addresses;
@@ -204,30 +208,49 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             }
         });
 
-        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if (status == TextToSpeech.SUCCESS) {
-                    String falar = "Tela inicial";
-                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
-                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
-                    try {
-                        Thread.sleep (2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace ();
-                    }
-                    falar = "Você pode acionar o botão do microfone que fica na parte inferior da tela e falar a função que deseja, isto serve para todas as funções do aplicativo";
-                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
-                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
-                } else {
-                    Log.e("TTS", "Initilization Failed!");
-                }
+        armazenar();
+        recuperar();
 
-            }
-        });
+        if(vozenable){
+            textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+                @Override
+                public void onInit(int status) {
+                    if (status == TextToSpeech.SUCCESS) {
+                        String falar = "Tela inicial";
+                        Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                        textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                        try {
+                            Thread.sleep (2000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace ();
+                        }
+                        falar = "Você pode acionar o botão do microfone que fica na parte inferior da tela e falar a função que deseja, isto serve para todas as funções do aplicativo";
+                        Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                        textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                    } else {
+                        Log.e("TTS", "Initilization Failed!");
+                    }
+
+                }
+            });
+        }
+
     }
 
 
+
+    private void armazenar(){
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean("voz", true);
+
+        editor.commit();
+    }
+
+    private void recuperar(){
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        vozenable = settings.getBoolean("voz", false);
+    }
 
     private void getLocation() {
         locationManager = (LocationManager) getSystemService (Context.LOCATION_SERVICE);

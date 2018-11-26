@@ -134,7 +134,7 @@ public class AllContacts extends AppCompatActivity implements RecognitionListene
 
         btnVoltar.setOnLongClickListener(new View.OnLongClickListener() {
             public boolean onLongClick(View v) {
-                String falar = "Voltar";
+                String falar = "Voltando";
                 Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                 textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
                 return true;

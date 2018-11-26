@@ -116,7 +116,6 @@ public class alarmefunc extends AppCompatActivity implements RecognitionListener
         btnVoltar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent j = new Intent (getApplicationContext (), MainActivity.class);
                 startActivity (j);
             }
@@ -213,6 +212,39 @@ public class alarmefunc extends AppCompatActivity implements RecognitionListener
                 Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
                 textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
                 return  true;
+            }
+        });
+
+        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    String falar = "Tela de alarme aberta";
+                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                    try {
+                        Thread.sleep (2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace ();
+                    }
+                    falar = "Pressione o botão no inferior da tela e fale adicionar novo alarme";
+                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+
+                    try {
+                        Thread.sleep (6000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace ();
+                    }
+
+                    falar = "E para voltar para a tela inicial, pressione a parte superior da tela ou fale voltar no microfone";
+                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+
+                } else {
+                    Log.e("TTS", "Initilization Failed!");
+                }
+
             }
         });
     }
@@ -355,10 +387,12 @@ public class alarmefunc extends AppCompatActivity implements RecognitionListener
         for (int i = 0; i < matches.size (); i++) {
             textGet = matches.get (i).toString ().toLowerCase ();
 
-            if(textGet.equals ("adicionar alarme") || textGet.equals ("adicionar") || textGet.equals ("novo alarme") || textGet.equals ("alarme novo")){
-                abreAlarme(-1);
+            if (textGet.equals ("adicionar alarme") || textGet.equals ("adicionar") || textGet.equals ("novo alarme") || textGet.equals ("alarme novo")) {
+                abreAlarme (-1);
+            } else if (textGet.equals ("voltar")){
+                 j = new Intent (getApplicationContext (), MainActivity.class);
+                startActivity (j);
             }else{
-
                 final int size = list.getChildCount();
                 for(int h = 0; h < size; h++) {
 
