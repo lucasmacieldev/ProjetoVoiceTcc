@@ -169,6 +169,48 @@ public class detailcontato extends AppCompatActivity implements RecognitionListe
             }
         });
 
+        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    String falar = "Tela de detalhes do contato aberta";
+                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                    try {
+                        Thread.sleep (2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace ();
+                    }
+                    falar = "Pressione o botão no inferior da tela e fale detalhe para escutar as informações deste contato ";
+                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+
+                    try {
+                        Thread.sleep (6000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace ();
+                    }
+
+                    falar = "Ou fale excluir para remover ele da sua agenda";
+                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+
+                    try {
+                        Thread.sleep (4000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace ();
+                    }
+
+                    falar = "E para voltar para a tela da agenda, pressione a parte superior da tela ou fale voltar no microfone";
+                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                } else {
+                    Log.e("TTS", "Initilization Failed!");
+                }
+
+            }
+        });
+
 
     }
 

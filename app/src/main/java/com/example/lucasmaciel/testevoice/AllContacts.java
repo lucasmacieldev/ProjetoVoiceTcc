@@ -168,6 +168,48 @@ public class AllContacts extends AppCompatActivity implements RecognitionListene
             }
         });
 
+        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    String falar = "Tela de contato aberta";
+                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                    try {
+                        Thread.sleep (2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace ();
+                    }
+                    falar = "Pressione o botão no inferior da tela e fale adicionar contato para cadastrar";
+                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+
+                    try {
+                        Thread.sleep (6000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace ();
+                    }
+
+                    falar = "Ou o nome do contato para abrir a tela dela de detalhes";
+                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+
+                    try {
+                        Thread.sleep (4000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace ();
+                    }
+
+                    falar = "E para voltar para a tela inicial, pressione a parte superior da tela ou fale voltar no microfone";
+                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                } else {
+                    Log.e("TTS", "Initilization Failed!");
+                }
+
+            }
+        });
+
     }
 
     private void getAllContacts() {
@@ -378,23 +420,25 @@ public class AllContacts extends AppCompatActivity implements RecognitionListene
         for (String result : matches)
             text += result + "\n";
 
-        for (int i = 0; i < matches.size (); i++) {
-            String textGet = matches.get(i).toString().toLowerCase();
+        if(matches.get(0).equals ("voltar")){
+            String falar = "Voltando";
+            Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+            textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+            Intent j = new Intent (getApplicationContext (), MainActivity.class);
+            startActivity (j);
+        }else{
+            for (int i = 0; i < matches.size (); i++) {
+                String textGet = matches.get(i).toString().toLowerCase();
                 if(textGet.equals ("adicionar novo contato") || textGet.equals ("adicionar") || textGet.equals ("novo") || textGet.equals ("novo contato") || textGet.equals ("adicionar contato")){
                     String falar = "Novo contato";
                     Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                     textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
                     Intent j = new Intent (this, cadastrarcontato.class);
                     startActivity (j);
-                }else if(textGet.equals ("voltar")){
-                    String falar = "Voltando";
-                    Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
-                    textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
-                    Intent j = new Intent (getApplicationContext (), MainActivity.class);
-                    startActivity (j);
                 }else{
                     comandoVoz (matches);
                 }
+            }
         }
     }
 

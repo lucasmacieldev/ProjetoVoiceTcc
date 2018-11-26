@@ -204,8 +204,30 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             }
         });
 
+        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    String falar = "Tela inicial";
+                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                    try {
+                        Thread.sleep (2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace ();
+                    }
+                    falar = "Você pode acionar o botão do microfone que fica na parte inferior da tela e falar a função que deseja, isto serve para todas as funções do aplicativo";
+                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                } else {
+                    Log.e("TTS", "Initilization Failed!");
+                }
 
+            }
+        });
     }
+
+
 
     private void getLocation() {
         locationManager = (LocationManager) getSystemService (Context.LOCATION_SERVICE);
@@ -317,7 +339,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                     horarioEData ();
                     break;
                 }else if(textGet.equals ("calculadora") || textGet.equals ("somar") || textGet.equals ("subitrair") || textGet.equals ("dividir") || textGet.equals ("multiplicar")){
-                    falar = "Calculadora";
+                    falar = "Abrindo calculadora";
                     Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                     textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
                     try {

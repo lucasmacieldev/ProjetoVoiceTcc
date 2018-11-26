@@ -200,6 +200,38 @@ public class cadastrarcontato extends AppCompatActivity implements RecognitionLi
             }
         });
 
+        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    String falar = "Tela de cadastro aberta";
+                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                    try {
+                        Thread.sleep (2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace ();
+                    }
+                    falar = "Pressione o botão no inferior da tela e siga as instruções para adicionar um novo contato";
+                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+
+                    try {
+                        Thread.sleep (6000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace ();
+                    }
+
+                    falar = "E para voltar para a tela de contato, pressione a parte superior da tela ou fale voltar no microfone";
+                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+
+                } else {
+                    Log.e("TTS", "Initilization Failed!");
+                }
+
+            }
+        });
 
     }
 

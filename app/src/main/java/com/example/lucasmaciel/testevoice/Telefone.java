@@ -140,6 +140,39 @@ public class Telefone extends AppCompatActivity implements RecognitionListener {
                 return true;
             }
         });
+
+        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    String falar = "Tela de telefone aberta";
+                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                    try {
+                        Thread.sleep (2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace ();
+                    }
+                    falar = "Pressione o botão no inferior da tela e fale o nome do contato que deseja para realizar a ligação";
+                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+
+                    try {
+                        Thread.sleep (6000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace ();
+                    }
+
+                    falar = "E para voltar para a tela inicial, pressione a parte superior da tela ou fale voltar no microfone";
+                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+
+                } else {
+                    Log.e("TTS", "Initilization Failed!");
+                }
+
+            }
+        });
     }
 
 
