@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:gravity="center"
+        android:id="@+id/ll">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,40 +38,46 @@
                     android:drawableLeft="@drawable/ic_reply_black_24dp"
                     android:padding="10dp"
                     android:text="Voltar"
-                    android:textColor="#FFFFFF" />
+                    android:textColor="#FFFFFF"
+                    />
             </LinearLayout>
         </android.support.v7.widget.CardView>
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/textView"
+        <TimePicker
+            android:id="@+id/clock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:timePickerMode="spinner" />
+        <ListView
+            android:id="@+id/lstDias"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"></ListView>
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="16dp"
-        android:textSize="25dp"
-        android:text="@string/explicacaoCrudClock"
-        android:gravity="center" />
+        android:layout_weight="1" >
+        <LinearLayout
+            android:id="@+id/LinearLayout02"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:textSize="25dp"
+                android:text="@string/explicacaoCrudClock"
+                android:gravity="center"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"/>
 
-    <TimePicker
-        android:id="@+id/clock"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:timePickerMode="spinner" />
-
-    <ListView
-        android:id="@+id/lstDias"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"></ListView>
 
 
-    <LinearLayout
-        android:id="@+id/LinearLayout02"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:padding="20dp">
-
-        <Button
+            <Button
             android:id="@+id/btnExcluir"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -74,8 +86,7 @@
             android:textColor="#ffffff"
             android:onClick="excluiAlarme"
             android:text="@string/excluir"></Button>
-
-        <Button
+            <Button
             android:id="@+id/btnAvancar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -85,6 +96,7 @@
             android:onClick="gerenciaAlarme"
             android:text="@string/avancar" />
     </LinearLayout>
+    </ScrollView>
     <LinearLayout
         android:clipToPadding="false"
         android:gravity="center"
@@ -120,5 +132,5 @@
             </LinearLayout>
         </android.support.v7.widget.CardView>
     </LinearLayout>
-
+    </LinearLayout>
 </LinearLayout>

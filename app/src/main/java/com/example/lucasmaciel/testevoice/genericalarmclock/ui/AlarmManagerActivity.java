@@ -3,16 +3,20 @@ package com.example.lucasmaciel.testevoice.genericalarmclock.ui;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -58,6 +62,11 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
     private TextToSpeech tts = null;
     private Intent recognizerIntent;
     private String LOG_TAG = "VoiceRecognitionActivity";
+    private String horario="";
+    private String minutos="";
+    private String dias="";
+    private int ponteiroDia = 0;
+    boolean[] ab_diasMarcados = new boolean[6];
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -81,6 +90,8 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
             }
         });
 
+        toggleButton = (ToggleButton) findViewById (R.id.btnFalar);
+
         speech = SpeechRecognizer.createSpeechRecognizer (this);
         speech.setRecognitionListener((RecognitionListener) this);
 
@@ -94,7 +105,113 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
                 RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
         recognizerIntent.putExtra (RecognizerIntent.EXTRA_MAX_RESULTS, 3);
 
+        toggleButton.setOnCheckedChangeListener (new CompoundButton.OnCheckedChangeListener () {
 
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,
+                                         boolean isChecked) {
+                if (isChecked) {
+                    if(horario.equals ("")){
+                        String falar = "Fale em qual hora deve despertar após o sinal";
+                        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                        try {
+                            Thread.sleep (3000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace ();
+                        }
+                    }else if(minutos.equals ("")){
+                        String falar = "Fale em qual os minutos deve despertar após o sinal";
+                        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                        try {
+                            Thread.sleep (3000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace ();
+                        }
+                    }else if(ponteiroDia == 0){
+                        String falar = "Fale sim ou não após o sinal se você deseja que este despertador funcione de Domingo";
+                        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                        try {
+                            Thread.sleep (4000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace ();
+                        }
+                    }else if(ponteiroDia == 1){
+                        String falar = "Fale sim ou não após o sinal se você deseja que este despertador funcione de Segunda";
+                        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                        try {
+                            Thread.sleep (4000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace ();
+                        }
+                    }else if(ponteiroDia == 2){
+                        String falar = "Fale sim ou não após o sinal se você deseja que este despertador funcione de Terça";
+                        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                        try {
+                            Thread.sleep (4000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace ();
+                        }
+                    }else if(ponteiroDia == 3){
+                        String falar = "Fale sim ou não após o sinal se você deseja que este despertador funcione de Quarta";
+                        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                        try {
+                            Thread.sleep (4000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace ();
+                        }
+                    }else if(ponteiroDia == 4){
+                        String falar = "Fale sim ou não após o sinal se você deseja que este despertador funcione de Quinta";
+                        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                        try {
+                            Thread.sleep (4000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace ();
+                        }
+                    }else if(ponteiroDia == 5){
+                        String falar = "Fale sim ou não após o sinal se você deseja que este despertador funcione de Sexta";
+                        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                        try {
+                            Thread.sleep (4000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace ();
+                        }
+                    }else if(ponteiroDia == 6){
+                        String falar = "Fale sim ou não após o sinal se você deseja que este despertador funcione de Sabado";
+                        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                        try {
+                            Thread.sleep (4000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace ();
+                        }
+                        ponteiroDia = 10;
+                    }else{
+                        return;
+                    }
+
+                    speech.startListening (recognizerIntent);
+                } else {
+                    speech.stopListening ();
+                }
+            }
+        });
+
+        textToSpeech = new TextToSpeech (getApplicationContext (), new TextToSpeech.OnInitListener () {
+            @Override
+            public void onInit(int status) {
+                if (status != textToSpeech.ERROR) {
+                    textToSpeech.setLanguage (Locale.getDefault ());
+                }
+            }
+        });
 
         // Carrega o relógio
         clock = (TimePicker) findViewById(R.id.clock);
@@ -111,7 +228,10 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
                 clock.setCurrentHour(vo_AlarmGeral.get_hora());
                 clock.setCurrentMinute(vo_AlarmGeral.get_minutos());
             }
+            btnGerenciar.setVisibility (View.GONE);
         }
+
+
         // Cria a lista de dias da semana.
         lstWeekDays = (ListView) findViewById(R.id.lstDias);
         adapterWeek = new WeekListAdapter(this, WeekInformation.get_vetDiasSemana());
@@ -154,7 +274,81 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
             return true;
             }
     });
-    }
+
+        SharedPreferences settings = getSharedPreferences("ConfigVoz", 0);
+        boolean vozenable = settings.getBoolean("voz", false);
+
+        if(vozenable) {
+            if (vi_Alarme == -1) {
+                    textToSpeech = new TextToSpeech (getApplicationContext (), new TextToSpeech.OnInitListener () {
+                        @Override
+                        public void onInit(int status) {
+                            if (status == TextToSpeech.SUCCESS) {
+                                String falar = "Tela de exclusão de alarme aberta";
+                                Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                                textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                                try {
+                                    Thread.sleep (2000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace ();
+                                }
+                                falar = "Pressione o botão no inferior da tela e fale excluir alarme";
+                                Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                                textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+
+                                try {
+                                    Thread.sleep (6000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace ();
+                                }
+
+                                falar = "E para voltar, pressione a parte superior da tela ou fale voltar no microfone";
+                                Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                                textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+
+                            } else {
+                                Log.e ("TTS", "Initilization Failed!");
+                            }
+
+                        }
+                    });
+                }else {
+                textToSpeech = new TextToSpeech (getApplicationContext (), new TextToSpeech.OnInitListener () {
+                    @Override
+                    public void onInit(int status) {
+                        if (status == TextToSpeech.SUCCESS) {
+                            String falar = "Tela de cadastro de alarme aberta";
+                            Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                            textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                            try {
+                                Thread.sleep (2000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace ();
+                            }
+                            falar = "Pressione o botão no inferior da tela e siga as instruções para adicionar um novo alarme";
+                            Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                            textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+
+                            try {
+                                Thread.sleep (6000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace ();
+                            }
+
+                            falar = "E para voltar, pressione a parte superior da tela ou fale voltar no microfone";
+                            Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                            textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+
+                        } else {
+                            Log.e ("TTS", "Initilization Failed!");
+                        }
+
+                    }
+                });
+            }
+            }
+        }
+
     private void preparaBancoDados()
     {
         try {
@@ -197,8 +391,14 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
         }
         realm.commitTransaction();
 
-        Intent j = new Intent (this, alarmefunc.class);
-        startActivity (j);
+        String falar = "Alarme cadastrado com sucesso!";
+        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+        try {
+            Thread.sleep (3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace ();
+        }
 
         this.finish();
     }
@@ -229,6 +429,11 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
                     Toast.makeText(getApplicationContext(),
                             getResources().getString(R.string.alarmeExcluido),
                             Toast.LENGTH_SHORT).show();
+                    textToSpeech.speak ("Alarme excluído com sucesso", TextToSpeech.QUEUE_FLUSH, null);try {
+                    Thread.sleep (3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace ();
+                }
                 }
             });
             this.finish();
@@ -367,7 +572,54 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
         for (String result : matches)
             text += result + "\n";
 
-        //returnedText.setText (text);
+            if (ponteiroDia == 10) {
+                int horaConvert = Integer.parseInt (horario);
+                int minutosConvert = Integer.parseInt (minutos);
+
+                String resposta = matches.get (0);
+                if (resposta.equalsIgnoreCase ("sim")) {
+                    ab_diasMarcados[5] = true;
+                } else {
+                    ab_diasMarcados[5] = false;
+                }
+
+                cadastrar (horaConvert, minutosConvert, ab_diasMarcados);
+            }else {
+                for (int i = 0; i < matches.size (); i++) {
+                    if (horario.equals ("")) {
+                        horario = matches.get (i);
+                        try {
+                            Thread.sleep (3000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace ();
+                        }
+                        toggleButton.setChecked (true);
+                        return;
+                    } else if (minutos.equals ("")) {
+                        minutos = matches.get (i);
+                        String valorNomeFalado = matches.get (0);
+                        try {
+                            Thread.sleep (3000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace ();
+                        }
+                        toggleButton.setChecked (true);
+                        return;
+
+                    }
+                }
+                if (ponteiroDia <= 5) {
+                    String resposta = matches.get (0);
+                    if (resposta.equalsIgnoreCase ("sim")) {
+                        ab_diasMarcados[ponteiroDia] = true;
+                    } else {
+                        ab_diasMarcados[ponteiroDia] = false;
+                    }
+
+                    ponteiroDia++;
+                    toggleButton.setChecked (true);
+                }
+            }
     }
 
 }

@@ -2,6 +2,7 @@ package com.example.lucasmaciel.testevoice;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
@@ -128,37 +129,42 @@ public class Calc extends Activity implements TextToSpeech.OnInitListener,Recogn
             }
         });
 
-        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if (status == TextToSpeech.SUCCESS) {
-                    String falar = "Tela de calculadora aberta";
-                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
-                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
-                    try {
-                        Thread.sleep (2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace ();
-                    }
-                    falar = "Nesta tela não existe o botão de microfone na parte inferior da tela";
-                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
-                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+        SharedPreferences settings = getSharedPreferences("ConfigVoz", 0);
+        boolean vozenable = settings.getBoolean("voz", false);
 
-                    try {
-                        Thread.sleep (6000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace ();
+        if(vozenable) {
+            textToSpeech = new TextToSpeech (getApplicationContext (), new TextToSpeech.OnInitListener () {
+                @Override
+                public void onInit(int status) {
+                    if (status == TextToSpeech.SUCCESS) {
+                        String falar = "Tela de calculadora aberta";
+                        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                        try {
+                            Thread.sleep (2000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace ();
+                        }
+                        falar = "Nesta tela não existe o botão de microfone na parte inferior da tela";
+                        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+
+                        try {
+                            Thread.sleep (6000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace ();
+                        }
+
+                        falar = "Para voltar para a tela inicial, pressione a parte superior da tela";
+                        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                    } else {
+                        Log.e ("TTS", "Initilization Failed!");
                     }
 
-                    falar = "Para voltar para a tela inicial, pressione a parte superior da tela";
-                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
-                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
-                } else {
-                    Log.e("TTS", "Initilization Failed!");
                 }
-
-            }
-        });
+            });
+        }
 
     }
 

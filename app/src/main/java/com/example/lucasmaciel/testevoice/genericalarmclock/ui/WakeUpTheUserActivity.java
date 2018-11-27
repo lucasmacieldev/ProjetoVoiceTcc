@@ -17,9 +17,6 @@ import com.example.lucasmaciel.testevoice.R;
 import com.example.lucasmaciel.testevoice.genericalarmclock.alarmefunc;
 import com.example.lucasmaciel.testevoice.genericalarmclock.model.DeezerInformation;
 
-/**
- * Created by cezar on 12/8/16.
- */
 public class WakeUpTheUserActivity extends AppCompatActivity
 {
     private DeezerInformation vo_despertador;

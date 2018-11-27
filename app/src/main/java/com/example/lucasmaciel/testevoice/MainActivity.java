@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     String provider;
 
     public static final String PREFS_NAME = "ConfigVoz";
-    private boolean vozenable;
+    private boolean vozenable = true;
 
     Geocoder geocoder;
     List<Address> addresses;
@@ -208,8 +208,8 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             }
         });
 
-        armazenar();
-        recuperar();
+        SharedPreferences settings = getSharedPreferences("ConfigVoz", 0);
+        boolean vozenable = settings.getBoolean("voz", false);
 
         if(vozenable){
             textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
@@ -227,6 +227,15 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                         falar = "Você pode acionar o botão do microfone que fica na parte inferior da tela e falar a função que deseja, isto serve para todas as funções do aplicativo";
                         Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
                         textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                        try {
+                            Thread.sleep (8000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace ();
+                        }
+
+                        falar = "Ou fale ativar ou desativar voz, para escultar ou não a voz introdução de tela";
+                        Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                        textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
                     } else {
                         Log.e("TTS", "Initilization Failed!");
                     }
@@ -237,20 +246,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
     }
 
-
-
-    private void armazenar(){
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putBoolean("voz", true);
-
-        editor.commit();
-    }
-
-    private void recuperar(){
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        vozenable = settings.getBoolean("voz", false);
-    }
 
     private void getLocation() {
         locationManager = (LocationManager) getSystemService (Context.LOCATION_SERVICE);
@@ -373,17 +368,17 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                         j = new Intent (this, Calc.class);
                     startActivity (j);
                     break;
-                }else if(textGet.equals ("local") || textGet.equals ("onde estou") || textGet.equals ("localização") || textGet.equals ("nome da rua") || textGet.equals ("rua")){
+                }else if(textGet.equals ("local") || textGet.equals ("onde estou") || textGet.equals ("localização") || textGet.equals ("nome da rua") || textGet.equals ("rua")) {
                     try {
-                        gps = new GPSTracker(MainActivity.this);
+                        gps = new GPSTracker (MainActivity.this);
 
-                        lat = gps.getLatitude();
-                        lng = gps.getLongitude();
+                        lat = gps.getLatitude ();
+                        lng = gps.getLongitude ();
 
-                        geocoder = new Geocoder(this, Locale.getDefault());
+                        geocoder = new Geocoder (this, Locale.getDefault ());
                         addresses = geocoder.getFromLocation (lat, lng, 1);
 
-                        String address = addresses.get(0).getThoroughfare () + " numero " + addresses.get(0).getSubThoroughfare () + " cep " + addresses.get(0).getPostalCode ();
+                        String address = addresses.get (0).getThoroughfare () + " numero " + addresses.get (0).getSubThoroughfare () + " cep " + addresses.get (0).getPostalCode ();
                         //String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
                         //city = addresses.get(0).getLocality();
                         //String state = addresses.get(0).getAdminArea();
@@ -391,24 +386,43 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                         //String postalCode = addresses.get(0).getPostalCode();
                         //String knownName = addresses.get(0).getFeatureName();
 
-                        textoLocal.setText("Localização atual: " + address);
+                        textoLocal.setText ("Localização atual: " + address);
 
-                        falar = "Localização atual: " +address;
-                        Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
-                        textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                        falar = "Localização atual: " + address;
+                        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
                     } catch (IOException e) {
                         falar = "Sem sinal de internet ou sem permissão de localização e internet neste aplicativo";
-                        Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
-                        textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
                         e.printStackTrace ();
-                    }
-                    catch (Exception e)
-                    {
+                    } catch (Exception e) {
                         falar = "Sem sinal de internet ou sem permissão de internet e localização neste aplicativo";
-                        Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
-                        textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
                         e.printStackTrace ();
                     }
+                    break;
+                }else if(textGet.equalsIgnoreCase ("desativar voz")){
+                    falar = "Voz de introdução desativada!";
+                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                    vozenable = false;
+                    SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putBoolean("voz", vozenable);
+                    editor.commit();
+                    break;
+
+                }else if(textGet.equalsIgnoreCase ("ativar voz")){
+                    falar = "Voz de introdução ativada!";
+                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                    vozenable = true;
+                    SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putBoolean("voz", vozenable);
+                    editor.commit();
                     break;
                 }else{
                     falar = "Comando não encontrado, tente outro!";

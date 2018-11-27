@@ -1,6 +1,7 @@
 package com.example.lucasmaciel.testevoice.genericalarmclock;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
@@ -99,9 +100,9 @@ public class alarmefunc extends AppCompatActivity implements RecognitionListener
 
         returnedText.addTextChangedListener (new TextWatcher () {
             public void afterTextChanged(Editable s) {
-                String falar = "Repetindo: " + returnedText.getText ().toString ();
-                Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
-                textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                //String falar = "Repetindo: " + returnedText.getText ().toString ();
+                //Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                //textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -215,38 +216,43 @@ public class alarmefunc extends AppCompatActivity implements RecognitionListener
             }
         });
 
-        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if (status == TextToSpeech.SUCCESS) {
-                    String falar = "Tela de alarme aberta";
-                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
-                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
-                    try {
-                        Thread.sleep (2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace ();
+        SharedPreferences settings = getSharedPreferences("ConfigVoz", 0);
+        boolean vozenable = settings.getBoolean("voz", false);
+
+        if(vozenable) {
+            textToSpeech = new TextToSpeech (getApplicationContext (), new TextToSpeech.OnInitListener () {
+                @Override
+                public void onInit(int status) {
+                    if (status == TextToSpeech.SUCCESS) {
+                        String falar = "Tela de alarme aberta";
+                        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                        try {
+                            Thread.sleep (2000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace ();
+                        }
+                        falar = "Pressione o botão no inferior da tela e fale adicionar novo alarme";
+                        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+
+                        try {
+                            Thread.sleep (6000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace ();
+                        }
+
+                        falar = "E para voltar para a tela inicial, pressione a parte superior da tela ou fale voltar no microfone";
+                        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+
+                    } else {
+                        Log.e ("TTS", "Initilization Failed!");
                     }
-                    falar = "Pressione o botão no inferior da tela e fale adicionar novo alarme";
-                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
-                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
 
-                    try {
-                        Thread.sleep (6000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace ();
-                    }
-
-                    falar = "E para voltar para a tela inicial, pressione a parte superior da tela ou fale voltar no microfone";
-                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
-                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
-
-                } else {
-                    Log.e("TTS", "Initilization Failed!");
                 }
-
-            }
-        });
+            });
+        }
     }
     private void preparaBancoDados()
     {
