@@ -77,10 +77,6 @@ public class Calc extends Activity implements TextToSpeech.OnInitListener,Recogn
                     }
                 }
             });
-
-
-
-
         }
         botao0 = findViewById(R.id.but0);
 

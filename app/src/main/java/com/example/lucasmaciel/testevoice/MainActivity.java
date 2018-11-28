@@ -1,6 +1,7 @@
 package com.example.lucasmaciel.testevoice;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
@@ -26,6 +27,7 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeechService;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -109,6 +111,17 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
             ActivityCompat.requestPermissions (this, new String[]{
                     Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+            }, MY_PERMISSION_REQUEST_CODE);
+
+        } else {
+            getLocation ();
+        }
+
+        if (ActivityCompat.checkSelfPermission (this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions (this, new String[]{
+                    Manifest.permission.READ_CONTACTS,
                     Manifest.permission.ACCESS_FINE_LOCATION
             }, MY_PERMISSION_REQUEST_CODE);
 
@@ -458,7 +471,9 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 } catch (InterruptedException e) {
                     e.printStackTrace ();
                 }
-                i = new Intent (this, Telefone.class);startActivity(i); onPause(); break;
+
+                verificaPermissoesContato();
+                //i = new Intent (this, Telefone.class);startActivity(i); onPause(); break;
             case R.id.calcId :
                 falar = "Abrindo calculadora";
                 Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
@@ -802,5 +817,33 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             windDeg.setText("" + weather.wind.getDeg() + "�");
             */
         }
+
+    }
+    public boolean verificaPermissoesContato(){
+        if (ContextCompat.checkSelfPermission(getApplicationContext (),
+                Manifest.permission.READ_CONTACTS)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) getApplicationContext (),
+                    Manifest.permission.READ_CONTACTS)) {
+
+                String test= "";
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions((Activity) getApplicationContext (),
+                        new String[]{Manifest.permission.READ_CONTACTS},
+                        1);
+
+                String test= "";
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+        return true;
     }
 }
