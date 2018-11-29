@@ -22,6 +22,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.example.lucasmaciel.testevoice.AllContacts;
 import com.example.lucasmaciel.testevoice.MainActivity;
 import com.example.lucasmaciel.testevoice.R;
 import com.example.lucasmaciel.testevoice.genericalarmclock.adapters.WeekListAdapter;
@@ -111,91 +112,101 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
             public void onCheckedChanged(CompoundButton buttonView,
                                          boolean isChecked) {
                 if (isChecked) {
-                    if(horario.equals ("")){
-                        String falar = "Fale em qual hora deve despertar após o sinal";
-                        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
-                        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
-                        try {
-                            Thread.sleep (3000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace ();
+                        if(vi_Alarme == 0) {
+                            String falar = "Fale excluir para apagar este alarme ou voltar";
+                            Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                            textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                            try {
+                                Thread.sleep (4000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace ();
+                            }
+                        }else if (horario.equals ("")) {
+                            String falar = "Fale em qual hora deve despertar após o sinal";
+                            Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                            textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                            try {
+                                Thread.sleep (3000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace ();
+                            }
+                        } else if (minutos.equals ("")) {
+                            String falar = "Fale em qual os minutos deve despertar após o sinal";
+                            Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                            textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                            try {
+                                Thread.sleep (3000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace ();
+                            }
+                        } else if (ponteiroDia == 0) {
+                            String falar = "Fale sim ou não após o sinal se você deseja que este despertador funcione de Domingo";
+                            Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                            textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                            try {
+                                Thread.sleep (4000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace ();
+                            }
+                        } else if (ponteiroDia == 1) {
+                            String falar = "Fale sim ou não após o sinal se você deseja que este despertador funcione de Segunda";
+                            Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                            textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                            try {
+                                Thread.sleep (4000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace ();
+                            }
+                        } else if (ponteiroDia == 2) {
+                            String falar = "Fale sim ou não após o sinal se você deseja que este despertador funcione de Terça";
+                            Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                            textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                            try {
+                                Thread.sleep (4000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace ();
+                            }
+                        } else if (ponteiroDia == 3) {
+                            String falar = "Fale sim ou não após o sinal se você deseja que este despertador funcione de Quarta";
+                            Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                            textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                            try {
+                                Thread.sleep (4000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace ();
+                            }
+                        } else if (ponteiroDia == 4) {
+                            String falar = "Fale sim ou não após o sinal se você deseja que este despertador funcione de Quinta";
+                            Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                            textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                            try {
+                                Thread.sleep (4000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace ();
+                            }
+                        } else if (ponteiroDia == 5) {
+                            String falar = "Fale sim ou não após o sinal se você deseja que este despertador funcione de Sexta";
+                            Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                            textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                            try {
+                                Thread.sleep (4000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace ();
+                            }
+                        } else if (ponteiroDia == 6) {
+                            String falar = "Fale sim ou não após o sinal se você deseja que este despertador funcione de Sabado";
+                            Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                            textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                            try {
+                                Thread.sleep (4000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace ();
+                            }
+                            ponteiroDia = 10;
+
+                        } else {
+                            return;
                         }
-                    }else if(minutos.equals ("")){
-                        String falar = "Fale em qual os minutos deve despertar após o sinal";
-                        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
-                        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
-                        try {
-                            Thread.sleep (3000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace ();
-                        }
-                    }else if(ponteiroDia == 0){
-                        String falar = "Fale sim ou não após o sinal se você deseja que este despertador funcione de Domingo";
-                        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
-                        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
-                        try {
-                            Thread.sleep (4000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace ();
-                        }
-                    }else if(ponteiroDia == 1){
-                        String falar = "Fale sim ou não após o sinal se você deseja que este despertador funcione de Segunda";
-                        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
-                        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
-                        try {
-                            Thread.sleep (4000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace ();
-                        }
-                    }else if(ponteiroDia == 2){
-                        String falar = "Fale sim ou não após o sinal se você deseja que este despertador funcione de Terça";
-                        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
-                        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
-                        try {
-                            Thread.sleep (4000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace ();
-                        }
-                    }else if(ponteiroDia == 3){
-                        String falar = "Fale sim ou não após o sinal se você deseja que este despertador funcione de Quarta";
-                        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
-                        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
-                        try {
-                            Thread.sleep (4000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace ();
-                        }
-                    }else if(ponteiroDia == 4){
-                        String falar = "Fale sim ou não após o sinal se você deseja que este despertador funcione de Quinta";
-                        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
-                        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
-                        try {
-                            Thread.sleep (4000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace ();
-                        }
-                    }else if(ponteiroDia == 5){
-                        String falar = "Fale sim ou não após o sinal se você deseja que este despertador funcione de Sexta";
-                        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
-                        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
-                        try {
-                            Thread.sleep (4000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace ();
-                        }
-                    }else if(ponteiroDia == 6){
-                        String falar = "Fale sim ou não após o sinal se você deseja que este despertador funcione de Sabado";
-                        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
-                        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
-                        try {
-                            Thread.sleep (4000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace ();
-                        }
-                        ponteiroDia = 10;
-                    }else{
-                        return;
-                    }
 
                     speech.startListening (recognizerIntent);
                 } else {
@@ -279,7 +290,7 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
         boolean vozenable = settings.getBoolean("voz", false);
 
         if(vozenable) {
-            if (vi_Alarme == -1) {
+            if (vi_Alarme == 0) {
                     textToSpeech = new TextToSpeech (getApplicationContext (), new TextToSpeech.OnInitListener () {
                         @Override
                         public void onInit(int status) {
@@ -571,6 +582,46 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
         String text = "";
         for (String result : matches)
             text += result + "\n";
+
+        if(vi_Alarme == 0){
+            if(matches.get (0).equals ("excluir")){
+                try
+                {
+                    realm.executeTransaction(new Realm.Transaction()
+                    {
+                        @Override
+                        public void execute(Realm realm)
+                        {
+                            for (Alarm vo_alarm:realm.where(Alarm.class).equalTo("_id",vi_Alarme).findAll())
+                                vo_alarm.deleteFromRealm();
+
+                            Toast.makeText(getApplicationContext(),
+                                    getResources().getString(R.string.alarmeExcluido),
+                                    Toast.LENGTH_SHORT).show();
+                            textToSpeech.speak ("Alarme excluído com sucesso", TextToSpeech.QUEUE_FLUSH, null);
+                        }
+                    });
+                    this.finish();
+                }catch (Exception exc){
+                    Toast.makeText(getApplicationContext(),
+                            getResources().getString(R.string.erroGerencia) +
+                                    exc.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            }else if(matches.get (0).equals ("voltar")){
+                String falar = "Voltando";
+                Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+
+                Intent j = new Intent (getApplicationContext (), alarmefunc.class);
+                startActivity (j);
+            }else{
+                String falar = "Comando não encontrado, tente outro";
+                Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+            }
+        }
+
 
             if (ponteiroDia == 10) {
                 int horaConvert = Integer.parseInt (horario);

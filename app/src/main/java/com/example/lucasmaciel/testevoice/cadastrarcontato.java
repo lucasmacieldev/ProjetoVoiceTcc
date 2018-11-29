@@ -91,11 +91,11 @@ public class cadastrarcontato extends AppCompatActivity implements RecognitionLi
                     telefone =(TextInputEditText) findViewById(R.id.telefonecontato);
 
                     if(valorTelefone == 0) {
-                        String falar = "Responda qual o tipo de contato sendo residencial ou celular após o sinal";
+                        String falar = "Responda qual o tipo de contato sendo residencial ou celular ou fale voltar após o sinal";
                         Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                         textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
                         try {
-                            Thread.sleep (3000);
+                            Thread.sleep (5000);
                         } catch (InterruptedException e) {
                             e.printStackTrace ();
                         }
@@ -381,19 +381,6 @@ public class cadastrarcontato extends AppCompatActivity implements RecognitionLi
         for (String result : matches)
             text += result + "\n";
 
-        if(matches.get(0).equals("voltar")){
-            String falar = "Voltando";
-            Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
-            textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
-            try {
-                Thread.sleep (3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace ();
-            }
-            Intent j = new Intent (getApplicationContext (), AllContacts.class);
-            startActivity (j);
-        }
-
         nomedocontato = (TextInputEditText) findViewById(R.id.nomeContato);
         telefone =(TextInputEditText) findViewById(R.id.telefonecontato);
 
@@ -406,8 +393,20 @@ public class cadastrarcontato extends AppCompatActivity implements RecognitionLi
 
             if(valorNomeFalado.equals ("residencial")){
                 valorTelefone = 8;
-            }else if(valorNomeFalado.equals ("celular")){
+            }else if(valorNomeFalado.equals ("celular")) {
                 valorTelefone = 9;
+            }else if(valorNomeFalado.equals ("voltar")){
+                String falar = "Voltando";
+                Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                try {
+                    Thread.sleep (3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace ();
+                }
+                Intent j = new Intent (getApplicationContext (), AllContacts.class);
+                startActivity (j);
+
             }else{
                 valorTelefone = 0;
             }

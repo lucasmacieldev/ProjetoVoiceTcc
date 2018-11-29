@@ -59,7 +59,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MainActivity extends AppCompatActivity implements RecognitionListener, View.OnClickListener, View.OnLongClickListener, LocationListener {
+import pub.devrel.easypermissions.AppSettingsDialog;
+import pub.devrel.easypermissions.EasyPermissions;
+
+public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks, RecognitionListener, View.OnClickListener, View.OnLongClickListener, LocationListener {
 
     final int MY_PERMISSION_REQUEST_CODE = 7171;
     GPSTracker gps;
@@ -77,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     private SpeechRecognizer speech = null;
     private Intent recognizerIntent;
     private String LOG_TAG = "VoiceRecognitionActivity";
-    private CardView contato, ligar, clima, alarme, bateria, horadata, local, calculadora;
+    private CardView contato, ligar, clima, alarme, bateria, horadata, local, calculadora, permissoes;
     LocationManager locationManager;
     String provider;
 
@@ -107,26 +110,8 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                             | View.SYSTEM_UI_FLAG_FULLSCREEN);
         }
 
-        if (ActivityCompat.checkSelfPermission (this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission (this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions (this, new String[]{
-                    Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-            }, MY_PERMISSION_REQUEST_CODE);
-
-        } else {
-            getLocation ();
-        }
-
-        if (ActivityCompat.checkSelfPermission (this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions (this, new String[]{
-                    Manifest.permission.READ_CONTACTS,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-            }, MY_PERMISSION_REQUEST_CODE);
-
-        } else {
-            getLocation ();
+        if (ActivityCompat.checkSelfPermission (this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission (this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+           getLocation ();
         }
 
         //BATERIA
@@ -188,6 +173,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         horadata = (CardView) findViewById (R.id.HorarioId);
         local = (CardView) findViewById (R.id.localId);
         calculadora = (CardView) findViewById (R.id.calcId);
+        permissoes = (CardView) findViewById (R.id.BtnPermissoes);
 
         contato.setOnClickListener (this);
         ligar.setOnClickListener (this);
@@ -197,6 +183,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         horadata.setOnClickListener (this);
         local.setOnClickListener (this);
         calculadora.setOnClickListener (this);
+        permissoes.setOnClickListener (this);
 
         contato.setOnLongClickListener (this);
         ligar.setOnLongClickListener (this);
@@ -206,6 +193,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         horadata.setOnLongClickListener (this);
         local.setOnLongClickListener (this);
         calculadora.setOnLongClickListener (this);
+        permissoes.setOnLongClickListener (this);
 
         returnedText.addTextChangedListener (new TextWatcher () {
             public void afterTextChanged(Editable s) {
@@ -304,32 +292,46 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             for (int i = 0; i <= matches.size (); i++) {
                 textGet = matches.get (i).toString ();
                 if (textGet.equals ("contato") || textGet.equals ("agenda") || textGet.equals ("contatos")) {
-                    falar = "Abrindo contato";
-                    Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
-                    textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                    int permissionContato = ContextCompat.checkSelfPermission(getApplicationContext (), Manifest.permission.READ_CONTACTS);
+                    if(permissionContato != PackageManager.PERMISSION_GRANTED){
+                        falar = "Você não aceitou a permissão de contato, para isso fale permissões e aceite!";
+                        Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                        textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                    }else{
+                        falar = "Abrindo contato";
+                        Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                        textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
 
-                    try {
-                        Thread.sleep (3000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace ();
+                        try {
+                            Thread.sleep (3000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace ();
+                        }
+                        j = new Intent (this, AllContacts.class);startActivity(j); onPause(); break;
                     }
-
-                    j = new Intent (this, AllContacts.class);
-                    startActivity (j);
                     break;
                 } else if (textGet.equals ("realizar ligações") || textGet.equals ("telefone") || textGet.equals ("ligar")) {
-                    falar = "Abrindo telefone";
-                    Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
-                    textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                    int permissionContato = ContextCompat.checkSelfPermission(getApplicationContext (), Manifest.permission.READ_CONTACTS);
+                    int permissionTelefone = ContextCompat.checkSelfPermission(getApplicationContext (), Manifest.permission.CALL_PHONE);
+                    if(permissionContato != PackageManager.PERMISSION_GRANTED || permissionTelefone != PackageManager.PERMISSION_GRANTED){
+                        falar = "Você não aceitou a permissão de contato e telefone, para isso fale permissões e aceite!";
+                        Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                        textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                    }else{
+                        falar = "Abrindo telefone";
+                        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
 
-                    try {
-                        Thread.sleep (3000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace ();
+                        try {
+                            Thread.sleep (3000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace ();
+                        }
+
+                        j = new Intent (this, Telefone.class);
+                        startActivity (j);
                     }
 
-                    j = new Intent (this, Telefone.class);
-                    startActivity (j);
                     break;
                 } else if (textGet.equals ("alarme") || textGet.equals ("despertador")) {
                     falar = "Abrindo alarme";
@@ -437,6 +439,30 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                     editor.putBoolean("voz", vozenable);
                     editor.commit();
                     break;
+                }else if(textGet.equalsIgnoreCase ("permissões") || textGet.equalsIgnoreCase ("ativar permissões") || textGet.equalsIgnoreCase ("desativar permissões") || textGet.equalsIgnoreCase ("ativar permissoes") || textGet.equalsIgnoreCase ("desativar permissoes")){
+                    if (Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.LOLLIPOP) {
+                        String[] perms = {
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.READ_CONTACTS,
+                                Manifest.permission.ACCESS_FINE_LOCATION,
+                                Manifest.permission.INTERNET,
+                                Manifest.permission.WRITE_CONTACTS,
+                                Manifest.permission.RECORD_AUDIO,
+                                Manifest.permission.ACCESS_COARSE_LOCATION,
+                                Manifest.permission.CALL_PHONE
+                        };
+
+                        if (!EasyPermissions.hasPermissions(this, perms)) {
+                            EasyPermissions.requestPermissions(this, "Estas permissões são de extrema importância para o funcionamento de todas funções.", MY_PERMISSION_REQUEST_CODE, perms);
+                        }else{
+                            falar = "Todas as permissões já foram aceitas";
+                            Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                            textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                            boolean x = EasyPermissions.somePermissionDenied (this, perms);
+                            String puta = "";
+                        }
+                    }
+                    break;
                 }else{
                     falar = "Comando não encontrado, tente outro!";
                     Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
@@ -451,28 +477,47 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         String falar = "";
         switch (v.getId ()){
             case R.id.contatoId :
-                falar = "Abrindo contato";
-                Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
-                textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                int permissionContato = ContextCompat.checkSelfPermission(getApplicationContext (), Manifest.permission.READ_CONTACTS);
+                if(permissionContato != PackageManager.PERMISSION_GRANTED){
+                    falar = "Você não aceitou a permissão de contato, para isso fale permissões e aceite!";
+                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                }else{
+                    falar = "Abrindo contato";
+                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
 
-                try {
-                    Thread.sleep (3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace ();
+                    try {
+                        Thread.sleep (3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace ();
+                    }
+                    i = new Intent (this, AllContacts.class);startActivity(i); onPause(); break;
                 }
-                i = new Intent (this, AllContacts.class);startActivity(i); onPause(); break;
+                break;
             case R.id.telefoneId :
-                falar = "Abrindo telefone";
-                Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
-                textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                int permissionContatos = ContextCompat.checkSelfPermission(getApplicationContext (), Manifest.permission.READ_CONTACTS);
+                int permissionTelefone = ContextCompat.checkSelfPermission(getApplicationContext (), Manifest.permission.CALL_PHONE);
+                if(permissionContatos != PackageManager.PERMISSION_GRANTED && permissionTelefone != PackageManager.PERMISSION_GRANTED){
+                    falar = "Você não aceitou a permissão de contato e telefone, para isso fale permissões e aceite!";
+                    Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                    textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                }else{
+                    falar = "Abrindo telefone";
+                    Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                    textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
 
-                try {
-                    Thread.sleep (3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace ();
+                    try {
+                        Thread.sleep (3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace ();
+                    }
+
+                    Intent j = new Intent (this, Telefone.class);
+                    startActivity (j);
                 }
+                break;
 
-                verificaPermissoesContato();
                 //i = new Intent (this, Telefone.class);startActivity(i); onPause(); break;
             case R.id.calcId :
                 falar = "Abrindo calculadora";
@@ -490,7 +535,9 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 gps = new GPSTracker(MainActivity.this);
                 double lat = gps.getLatitude();
                 double lng = gps.getLongitude();
-                geocoder = new Geocoder(this, Locale.getDefault());// Here 1 represent max location result to returned, by documents it recommended 1 to 5addresses = geocoder.getFromLocation (lat, lng, 1);
+                    geocoder = new Geocoder(this, Locale.getDefault());
+                    addresses = geocoder.getFromLocation (lat, lng, 1);
+                    // Here 1 represent max location result to returned, by documents it recommended 1 to 5addresses = geocoder.getFromLocation (lat, lng, 1);
                     city = addresses.get(0).getLocality();
                     JSONWeatherTask task = new JSONWeatherTask();
                     task.execute(new String[]{city});
@@ -501,9 +548,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                     textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
                     e.printStackTrace ();
                 }
-
-
-                 break;
+                break;
             case R.id.alarmeId :
                 falar = "Abrindo alarme";
                 Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
@@ -521,6 +566,30 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null); break;
             case R.id.HorarioId :
                 horarioEData();
+                break;
+            case R.id.BtnPermissoes :
+                if (Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    String[] perms = {
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.READ_CONTACTS,
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.INTERNET,
+                            Manifest.permission.WRITE_CONTACTS,
+                            Manifest.permission.RECORD_AUDIO,
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.CALL_PHONE
+                    };
+
+                    if (!EasyPermissions.hasPermissions(this, perms)) {
+                        EasyPermissions.requestPermissions(this, "Estas permissões são de extrema importância para o funcionamento de todas funções.", MY_PERMISSION_REQUEST_CODE, perms);
+                    }else{
+                        falar = "Todas as permissões já foram aceitas";
+                        Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                        textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                        boolean x = EasyPermissions.somePermissionDenied (this, perms);
+                        String puta = "";
+                    }
+                }
                 break;
             case R.id.localId :
                 try {
@@ -604,6 +673,11 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
                 textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
                 break;
+            case R.id.BtnPermissoes :
+                falar = "Permissões";
+                Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
+                textToSpeech.speak(falar, TextToSpeech.QUEUE_FLUSH, null);
+                break;
             case R.id.HorarioId :
                 falar = "Horario";
                 Toast.makeText(getApplicationContext(), falar, Toast.LENGTH_SHORT).show();
@@ -623,17 +697,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             return;
         }
         locationManager.requestLocationUpdates(provider, 400, 1, this);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSION_REQUEST_CODE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    getLocation();
-                break;
-
-        }
     }
 
     @Override
@@ -819,31 +882,32 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         }
 
     }
-    public boolean verificaPermissoesContato(){
-        if (ContextCompat.checkSelfPermission(getApplicationContext (),
-                Manifest.permission.READ_CONTACTS)
-                != PackageManager.PERMISSION_GRANTED) {
 
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) getApplicationContext (),
-                    Manifest.permission.READ_CONTACTS)) {
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        //EasyPermissions.requestPermissions(this, "", requestCode, permissions);
 
-                String test= "";
-
-            } else {
-
-                // No explanation needed, we can request the permission.
-
-                ActivityCompat.requestPermissions((Activity) getApplicationContext (),
-                        new String[]{Manifest.permission.READ_CONTACTS},
-                        1);
-
-                String test= "";
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }
+        switch (requestCode) {
+            case MY_PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                    getLocation();
+                break;
         }
-        return true;
+
+        Intent i = new Intent (this, MainActivity.class);startActivity(i);
+
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+
+
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+
+
     }
 }

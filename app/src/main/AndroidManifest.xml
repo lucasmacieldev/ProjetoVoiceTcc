@@ -43,7 +43,9 @@
         <activity android:name=".Telefone"
             android:screenOrientation="portrait"></activity>
         <activity android:name=".AllContacts"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity android:name=".detailcontato"
             android:screenOrientation="portrait"></activity>
 

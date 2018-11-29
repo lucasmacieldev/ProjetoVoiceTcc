@@ -60,7 +60,6 @@
                 android:layout_height="match_parent"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:focusable="true"
                 android:layout_marginTop="20dp">
 
                 <LinearLayout
@@ -76,18 +75,19 @@
                         android:padding="10dp"
                         android:src="@drawable/ic_person_add_black_24dp" />
 
-
-
-
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        >
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/nomeContato"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Nome do contato"  />
+                        android:hint="Nome do contato"
+                        />
                     </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
