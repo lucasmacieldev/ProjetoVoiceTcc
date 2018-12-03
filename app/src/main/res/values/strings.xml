@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Teste APP</string>
+    <string name="app_name">Helping Hand</string>
     <string name="action_settings">Sobre</string>
     <string name="explicacaoAdicionarAlarme">Clique aqui para adicionar um alarme</string>
     <string name="textButton">Adicionar</string>
