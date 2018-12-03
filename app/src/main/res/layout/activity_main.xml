@@ -30,13 +30,17 @@
                 android:orientation="horizontal">
 
                 <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/bateriaId"
                     android:text="Bateria"
                     android:layout_width="160dp"
                     android:layout_height="160dp"
                     android:layout_margin="10dp"
                     android:clickable="true"
-                    android:foreground="?android:attr/selectableItemBackground">
+                    app:cardBackgroundColor="#a6a6a6"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    card_view:cardCornerRadius="6dp"
+                    >
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -49,25 +53,35 @@
                             android:layout_height="64dp"
                             android:background="@drawable/cerclebackbroudblack"
                             android:padding="10dp"
+                            android:layout_marginTop="25dp"
                             android:src="@drawable/ic_battery_unknown_black_24dp" />
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:layout_marginTop="10dp"
+                            android:gravity="center"
+                            android:textColor="#ffffff"
+                            android:background="#30000000"
+                            android:textSize="18dp"
                             android:text="BateriaValue"
                             android:id="@+id/bateriaIdText"
+
                             android:textStyle="bold" />
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
+
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    card_view:cardCornerRadius="6dp"
                     android:layout_width="160dp"
                     android:layout_height="160dp"
                     android:layout_margin="10dp"
                     android:clickable="true"
                     android:id="@+id/HorarioId"
                     android:text="Horario e data"
+                    app:cardBackgroundColor="#808eff"
                     android:foreground="?android:attr/selectableItemBackground">
 
                     <LinearLayout
@@ -81,16 +95,20 @@
                             android:layout_width="64dp"
                             android:layout_height="64dp"
                             android:background="@drawable/cerclebackbroudblue"
+                            android:layout_marginTop="25dp"
                             android:padding="10dp"
                             android:src="@drawable/ic_access_time_white_24dp" />
 
                         <TextView
                             android:id="@+id/horariodatatxt"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginTop="10dp"
                             android:text="Horário e Data"
                             android:gravity="center"
+                            android:textColor="#ffffff"
+                            android:background="#30000000"
+                            android:textSize="17dp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -104,12 +122,16 @@
                 android:orientation="horizontal">
 
                 <android.support.v7.widget.CardView
+
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    card_view:cardCornerRadius="6dp"
                     android:id="@+id/contatoId"
                     android:text="Lista de contatos"
                     android:layout_width="160dp"
                     android:layout_height="190dp"
                     android:layout_margin="10dp"
                     android:clickable="true"
+                    app:cardBackgroundColor="#8f66ff"
                     android:foreground="?android:attr/selectableItemBackground">
 
                     <LinearLayout
@@ -123,24 +145,34 @@
                             android:layout_height="64dp"
                             android:background="@drawable/cerclebackbroudpurple"
                             android:padding="10dp"
+                            android:layout_marginTop="35dp"
+
                             android:src="@drawable/ic_contacts_black_24dp" />
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="30dp"
                             android:text="Contato"
+                            android:gravity="center"
+                            android:textColor="#ffffff"
+                            android:background="#30000000"
+                            android:textSize="17dp"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
+
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    card_view:cardCornerRadius="6dp"
                     android:layout_width="160dp"
                     android:layout_height="190dp"
                     android:layout_margin="10dp"
                     android:clickable="true"
                     android:id="@+id/telefoneId"
                     android:text="Realizar Ligação"
+                    app:cardBackgroundColor="#00e6c7"
                     android:foreground="?android:attr/selectableItemBackground">
 
                     <LinearLayout
@@ -155,13 +187,19 @@
                             android:layout_height="64dp"
                             android:background="@drawable/cerclebackbroudgreen"
                             android:padding="10dp"
+                            android:layout_marginTop="35dp"
+
                             android:src="@drawable/ic_call_black_24dp" />
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="30dp"
                             android:text="Telefone"
+                            android:gravity="center"
+                            android:textColor="#ffffff"
+                            android:background="#30000000"
+                            android:textSize="17dp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -175,12 +213,16 @@
                 android:orientation="horizontal">
 
                 <android.support.v7.widget.CardView
+
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    card_view:cardCornerRadius="6dp"
                     android:id="@+id/alarmeId"
                     android:text="Alarme"
                     android:layout_width="160dp"
                     android:layout_height="190dp"
                     android:layout_margin="10dp"
                     android:clickable="true"
+                    app:cardBackgroundColor="#ffc94d"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:focusable="true">
 
@@ -195,25 +237,34 @@
                             android:layout_height="64dp"
                             android:background="@drawable/cerclebackbroudyellow"
                             android:padding="10dp"
+                            android:layout_marginTop="35dp"
                             android:src="@drawable/ic_access_alarm_white_24dp" />
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="30dp"
                             android:text="Alarme"
+                            android:gravity="center"
+                            android:textColor="#ffffff"
+                            android:background="#30000000"
+                            android:textSize="18dp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
+
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    card_view:cardCornerRadius="6dp"
                     android:id="@+id/climaId"
                     android:text="Clima"
                     android:layout_width="160dp"
                     android:layout_height="190dp"
                     android:layout_margin="10dp"
                     android:clickable="true"
+                    app:cardBackgroundColor="#ff6699"
                     android:foreground="?android:attr/selectableItemBackground">
 
                     <LinearLayout
@@ -226,18 +277,23 @@
                             android:layout_width="64dp"
                             android:layout_height="64dp"
                             android:background="@drawable/cerclebackbroudpink"
+                            android:layout_marginTop="35dp"
                             android:padding="10dp"
                             android:src="@drawable/ic_brightness_low_white_24dp" />
 
                         <TextView
                             android:id="@+id/climaTxt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="30dp"
                             android:text="Clima"
+                            android:gravity="center"
+                            android:textColor="#ffffff"
+                            android:background="#30000000"
+                            android:textSize="15dp"
                             android:padding="5dp"
                             android:textStyle="bold"
-                            android:gravity="center"/>
+                            />
 
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
@@ -250,6 +306,9 @@
                 android:orientation="horizontal">
 
                 <android.support.v7.widget.CardView
+
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    card_view:cardCornerRadius="6dp"
                     android:id="@+id/localId"
                     android:text="Localização"
                     android:layout_width="160dp"
@@ -257,6 +316,7 @@
                     android:layout_margin="10dp"
                     android:clickable="true"
                     android:foreground="?android:attr/selectableItemBackground"
+                    app:cardBackgroundColor="#99E49D"
                     android:focusable="true">
 
                     <LinearLayout
@@ -269,22 +329,28 @@
                             android:layout_width="64dp"
                             android:layout_height="64dp"
                             android:background="@drawable/cerclebackbroudverde"
+                            android:layout_marginTop="35dp"
                             android:padding="10dp"
                             android:src="@drawable/ic_location_on_white_24dp" />
 
                         <TextView
                             android:id="@+id/txtlocal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="30dp"
                             android:text="Localização"
                             android:gravity="center"
-                            android:padding="5dp"
+                            android:textColor="#ffffff"
+                            android:background="#30000000"
+                            android:textSize="17dp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
                 <android.support.v7.widget.CardView
+
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    card_view:cardCornerRadius="6dp"
                     android:id="@+id/calcId"
                     android:text="Calculadora"
                     android:layout_width="160dp"
@@ -292,6 +358,8 @@
                     android:layout_margin="10dp"
                     android:clickable="true"
                     android:foreground="?android:attr/selectableItemBackground"
+                    app:cardBackgroundColor="#F3BEFF"
+
                     android:focusable="true">
 
                     <LinearLayout
@@ -304,14 +372,19 @@
                             android:layout_width="64dp"
                             android:layout_height="64dp"
                             android:background="@drawable/cerclebackbrouddefault1"
+                            android:layout_marginTop="35dp"
                             android:padding="10dp"
                             android:src="@drawable/ic_exposure_plus_1_black_24dp" />
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="30dp"
                             android:text="Calculadora"
+                            android:gravity="center"
+                            android:textColor="#ffffff"
+                            android:background="#30000000"
+                            android:textSize="17dp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -326,12 +399,16 @@
                 android:orientation="horizontal">
 
                 <android.support.v7.widget.CardView
+
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    card_view:cardCornerRadius="6dp"
                     android:id="@+id/BtnPermissoes"
                     android:text="Localização"
                     android:layout_width="160dp"
                     android:layout_height="190dp"
                     android:layout_margin="10dp"
                     android:clickable="true"
+                    app:cardBackgroundColor="#9c9549"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:focusable="true">
 
@@ -339,6 +416,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
+
                         android:orientation="vertical">
 
                         <ImageView
@@ -346,15 +424,18 @@
                             android:layout_height="64dp"
                             android:background="@drawable/cerclebackbroudpermissoes"
                             android:padding="10dp"
+                            android:layout_marginTop="35dp"
                             android:src="@drawable/ic_build_black_24dp" />
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="30dp"
                             android:text="Permissões"
                             android:gravity="center"
-                            android:padding="5dp"
+                            android:textColor="#ffffff"
+                            android:background="#30000000"
+                            android:textSize="17dp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
