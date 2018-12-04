@@ -102,7 +102,7 @@ public class cadastrarcontato extends AppCompatActivity implements RecognitionLi
                     }
 
                     if(nomedocontato.getText().toString ().equals ("") && valorTelefone != 0) {
-                        String falar = "Fale o nome do contato após o sinal";
+                        String falar = "Fale o nome do contato ou fale voltar após o sinal";
                         Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                         textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
                         try {
@@ -114,7 +114,7 @@ public class cadastrarcontato extends AppCompatActivity implements RecognitionLi
                     }
 
                     if(!nomedocontato.getText().toString ().equals ("") && valorTelefone != 0) {
-                        String falar = "Fale um digito do numero por vez após o sinal";
+                        String falar = "Fale um digito do numero por vez ou fale voltar após o sinal";
                         Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                         textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
                         try {
@@ -419,7 +419,7 @@ public class cadastrarcontato extends AppCompatActivity implements RecognitionLi
             return;
         }
 
-        if(nomedocontato.getText().toString ().equals ("")){
+        if(nomedocontato.getText().toString ().equals ("") && !matches.get (0).equals ("voltar")){
             String valorNomeFalado = matches.get(0);
             nomedocontato.setText(valorNomeFalado);
             try {
@@ -428,11 +428,25 @@ public class cadastrarcontato extends AppCompatActivity implements RecognitionLi
                 e.printStackTrace ();
             }
             toggleButton.setChecked (true);
+        }else if(matches.get (0).equals ("voltar")){
+            String falar = "Voltando";
+            Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+            textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+            try {
+                Thread.sleep (3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace ();
+            }
+            Intent j = new Intent (getApplicationContext (), AllContacts.class);
+            startActivity (j);
         }else{
             if(valorTelefone != 0){
-                valorTelefone--;
-                valorTelefoneNumero += matches.get (0);
-                telefone.setText (valorTelefoneNumero);
+                if(verificaValorFalado(matches.get (0))){
+                    valorTelefone--;
+                    valorTelefoneNumero += matches.get (0);
+                    telefone.setText (valorTelefoneNumero);
+                }
+
                 if(valorTelefone == 0){
                     cadastrarNovoContato(numeroContato, nomeContato);
                     speech.stopListening ();
@@ -444,7 +458,53 @@ public class cadastrarcontato extends AppCompatActivity implements RecognitionLi
         }
     }
 
+    private boolean verificaValorFalado(String s) {
+        String valorfalado = s;
+        String[] parts = valorfalado.split ("");
 
+
+        boolean sonumeros = false;
+
+        if (Character.isDigit (valorfalado.charAt (0)) == false) {
+            String falar = "Você falou letras, porfavor fale apenas um numero por vez";
+            Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+            textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+            try {
+                Thread.sleep (3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace ();
+            }
+            return false;
+        }
+
+        if(parts.length > 2){
+            String falar = "Você falou mais de um digito, porfavor fale apenas um numero por vez";
+            Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+            textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+            try {
+                Thread.sleep (4000);
+            } catch (InterruptedException e) {
+                e.printStackTrace ();
+            }
+            return false;
+        }
+
+        if(valorfalado.equals ("voltar")){
+            String falar = "voltando";
+            Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+            textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+            try {
+                Thread.sleep (3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace ();
+            }
+            Intent j = new Intent (getApplicationContext (), AllContacts.class);
+            startActivity (j);
+            return false;
+        }
+
+        return true;
+    }
 
 }
 
