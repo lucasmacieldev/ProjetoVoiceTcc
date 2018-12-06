@@ -24,6 +24,7 @@ import android.speech.tts.TextToSpeech;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.telecom.Call;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -51,7 +52,7 @@ public class Telefone extends AppCompatActivity implements RecognitionListener {
     private ToggleButton toggleButton;
     private SpeechRecognizer speech = null;
     private TextView returnedText;
-    private Button btnVoltar;
+    private Button btnVoltar, btnAbriteclado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +131,14 @@ public class Telefone extends AppCompatActivity implements RecognitionListener {
         btnVoltar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                String falar = "Voltando";
+                Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                try {
+                    Thread.sleep (3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace ();
+                }
                 Intent j = new Intent (getApplicationContext (), MainActivity.class);
                 startActivity (j);
             }
@@ -144,6 +152,34 @@ public class Telefone extends AppCompatActivity implements RecognitionListener {
                 return true;
             }
         });
+
+        btnAbriteclado = (Button) findViewById (R.id. btnAbriteclado);
+        btnAbriteclado.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String falar = "Abrindo teclado numérico";
+                Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                try {
+                    Thread.sleep (3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace ();
+                }
+                Intent j = new Intent (getApplicationContext (), CallPhone.class);
+                startActivity (j);
+            }
+        });
+
+        btnAbriteclado.setOnLongClickListener(new View.OnLongClickListener() {
+            public boolean onLongClick(View v) {
+                String falar = "Abrir teclado numérico";
+                Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                return true;
+            }
+        });
+
+
 
 
         SharedPreferences settings = getSharedPreferences("ConfigVoz", 0);
@@ -391,6 +427,12 @@ public class Telefone extends AppCompatActivity implements RecognitionListener {
             Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
             textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
             Intent j = new Intent (getApplicationContext (), MainActivity.class);
+            startActivity (j);
+        }if(matches.get (0).equals("teclado numerico") || matches.get (0).equals("numeros") || matches.get (0).equals("numero")){
+            String falar = "Abrindo teclado numerico";
+            Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+            textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+            Intent j = new Intent (getApplicationContext (), CallPhone.class);
             startActivity (j);
         }else{
             comandoVoz (matches);

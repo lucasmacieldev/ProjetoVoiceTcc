@@ -110,7 +110,14 @@ public class Calc extends Activity implements TextToSpeech.OnInitListener,Recogn
         btnVoltar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                String falar = "Voltando";
+                Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                try {
+                    Thread.sleep (3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace ();
+                }
                 Intent j = new Intent (getApplicationContext (), MainActivity.class);
                 startActivity (j);
             }

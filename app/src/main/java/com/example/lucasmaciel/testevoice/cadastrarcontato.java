@@ -84,35 +84,34 @@ public class cadastrarcontato extends AppCompatActivity implements RecognitionLi
         toggleButton.setOnCheckedChangeListener (new CompoundButton.OnCheckedChangeListener () {
 
             @Override
-            public void onCheckedChanged(CompoundButton buttonView,
-                                         boolean isChecked) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     nomedocontato = (TextInputEditText) findViewById(R.id.nomeContato);
-                    telefone =(TextInputEditText) findViewById(R.id.telefonecontato);
+                    telefone = (TextInputEditText) findViewById(R.id.telefonecontato);
+
+                    speech.startListening (recognizerIntent);
 
                     if(valorTelefone == 0) {
                         String falar = "Responda qual o tipo de contato sendo residencial ou celular ou fale voltar após o sinal";
                         Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                         textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
                         try {
-                            Thread.sleep (5000);
+                            Thread.sleep (7000);
                         } catch (InterruptedException e) {
                             e.printStackTrace ();
                         }
                     }
-
                     if(nomedocontato.getText().toString ().equals ("") && valorTelefone != 0) {
                         String falar = "Fale o nome do contato ou fale voltar após o sinal";
                         Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                         textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
                         try {
-                            Thread.sleep (3000);
+                            Thread.sleep (7000);
                         } catch (InterruptedException e) {
                             e.printStackTrace ();
                         }
 
                     }
-
                     if(!nomedocontato.getText().toString ().equals ("") && valorTelefone != 0) {
                         String falar = "Fale um digito do numero por vez ou fale voltar após o sinal";
                         Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
@@ -124,8 +123,9 @@ public class cadastrarcontato extends AppCompatActivity implements RecognitionLi
                         }
 
                     }
-                    speech.startListening (recognizerIntent);
-                } else {
+
+                }
+                else{
                     speech.stopListening ();
                 }
             }
@@ -165,8 +165,8 @@ public class cadastrarcontato extends AppCompatActivity implements RecognitionLi
             @Override
             public void onClick(View view) {
 
-                 nomedocontato = (TextInputEditText) findViewById(R.id.nomeContato);
-                 telefone =(TextInputEditText) findViewById(R.id.telefonecontato);
+                nomedocontato = (TextInputEditText) findViewById(R.id.nomeContato);
+                telefone =(TextInputEditText) findViewById(R.id.telefonecontato);
 
                 String nomeContato = nomedocontato.getText().toString ();
                 String numeroContato = telefone.getText().toString ();
@@ -388,7 +388,7 @@ public class cadastrarcontato extends AppCompatActivity implements RecognitionLi
         String numeroContato = telefone.getText().toString ();
 
 
-        if(valorTelefone == 0 && (valorTelefone != 8 || valorTelefone!=9)){
+        if(valorTelefone == 0 ){
             String valorNomeFalado = matches.get(0);
 
             if(valorNomeFalado.equals ("residencial")){

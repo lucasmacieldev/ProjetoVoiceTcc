@@ -38,6 +38,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".Calc"
             android:screenOrientation="portrait"/>
+        <activity android:name=".CallPhone"
+            android:screenOrientation="portrait"/>
         <activity android:name=".cadastrarcontato"
             android:screenOrientation="portrait"/>
         <activity android:name=".Telefone"

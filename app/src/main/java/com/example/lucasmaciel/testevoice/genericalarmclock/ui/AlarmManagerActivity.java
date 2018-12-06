@@ -68,6 +68,7 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
     private String dias="";
     private int ponteiroDia = 0;
     boolean[] ab_diasMarcados = new boolean[6];
+    boolean PararApp = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -81,6 +82,7 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
 
         bundle = getIntent().getExtras();
         vi_Alarme = bundle.getInt("id_alarme");
+
 
         textToSpeech = new TextToSpeech (getApplicationContext (), new TextToSpeech.OnInitListener () {
             @Override
@@ -122,7 +124,7 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
                                 e.printStackTrace ();
                             }
                         }else if (horario.equals ("")) {
-                            String falar = "Fale em qual hora deve despertar após o sinal";
+                            String falar = "Fale em qual hora deve despertar ou fale voltar após o sinal";
                             Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                             textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
                             try {
@@ -131,7 +133,7 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
                                 e.printStackTrace ();
                             }
                         } else if (minutos.equals ("")) {
-                            String falar = "Fale em qual os minutos deve despertar após o sinal";
+                            String falar = "Fale em qual os minutos deve despertar ou fale voltar após o sinal";
                             Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                             textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
                             try {
@@ -672,10 +674,12 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
                         } catch (InterruptedException e) {
                             e.printStackTrace ();
                         }
-                        toggleButton.setChecked (true);
 
-                        //verificar se é letra
-                        //verificar se falou voltar
+                        if(!verificaValorFalado(matches.get (0))){
+                            horario = "";
+                        }
+
+                        toggleButton.setChecked (true);
 
                         return;
                     } else if (minutos.equals ("")) {
@@ -686,10 +690,11 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
                         } catch (InterruptedException e) {
                             e.printStackTrace ();
                         }
-                        toggleButton.setChecked (true);
+                        if(!verificaValorFalado(matches.get (0))){
+                            minutos = "";
+                        }
 
-                        //verificar se é letra
-                        //verificar se falou voltar
+                        toggleButton.setChecked (true);
 
                         return;
                     }
@@ -733,6 +738,42 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
                     }
                 }
             }
+    }
+    private boolean verificaValorFalado(String s) {
+        String valorfalado = s;
+        String[] parts = valorfalado.split ("");
+
+
+        boolean sonumeros = false;
+
+        if(valorfalado.equals ("voltar")){
+                String falar = "voltando";
+                Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                try {
+                    Thread.sleep (3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace ();
+                }
+
+            return false;
+        }
+
+        if (Character.isDigit (valorfalado.charAt (0)) == false) {
+            String falar = "Você falou letras, porfavor fale apenas um numero por vez";
+            Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+            textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+            try {
+                Thread.sleep (3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace ();
+            }
+            return false;
+        }
+
+
+
+        return true;
     }
 
 }
