@@ -117,6 +117,14 @@ public class alarmefunc extends AppCompatActivity implements RecognitionListener
         btnVoltar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String falar = "Voltando";
+                Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                try {
+                    Thread.sleep (2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace ();
+                }
                 Intent j = new Intent (getApplicationContext (), MainActivity.class);
                 startActivity (j);
             }
@@ -172,7 +180,7 @@ public class alarmefunc extends AppCompatActivity implements RecognitionListener
             }
         });
 
-        //AQUI PORRA
+
         vo_AlarmGeral = realm.where(Alarm.class).equalTo("_hora",17).findFirst();
 
         list.setOnItemLongClickListener (new AdapterView.OnItemLongClickListener() {
@@ -268,6 +276,14 @@ public class alarmefunc extends AppCompatActivity implements RecognitionListener
     }
     public void adicionarAlarme(View v)
     {
+        String falar = "Abrindo tela de adicionar alarme";
+        Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+        textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+        try {
+            Thread.sleep (3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace ();
+        }
         abreAlarme( -1);
     }
     private void abreAlarme(int id_Alarme)
@@ -394,10 +410,27 @@ public class alarmefunc extends AppCompatActivity implements RecognitionListener
             textGet = matches.get (i).toString ().toLowerCase ();
 
             if (textGet.equals ("adicionar alarme") || textGet.equals ("adicionar") || textGet.equals ("novo alarme") || textGet.equals ("alarme novo")) {
+                falar = "Abrindo tela de adicionar alarme";
+                Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                try {
+                    Thread.sleep (3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace ();
+                }
                 abreAlarme (-1);
             } else if (textGet.equals ("voltar")){
-                 j = new Intent (getApplicationContext (), MainActivity.class);
+                falar = "Voltando";
+                Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                try {
+                    Thread.sleep (2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace ();
+                }
+                j = new Intent (getApplicationContext (), MainActivity.class);
                 startActivity (j);
+                onPause ();
             }else{
                 final int size = list.getChildCount();
                 for(int h = 0; h < size; h++) {

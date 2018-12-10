@@ -67,7 +67,7 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
     private String minutos="";
     private String dias="";
     private int ponteiroDia = 0;
-    boolean[] ab_diasMarcados = new boolean[6];
+    boolean[] ab_diasMarcados = new boolean[7];
     boolean PararApp = false;
 
     @Override
@@ -128,7 +128,7 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
                             Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                             textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
                             try {
-                                Thread.sleep (3000);
+                                Thread.sleep (4000);
                             } catch (InterruptedException e) {
                                 e.printStackTrace ();
                             }
@@ -137,7 +137,7 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
                             Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                             textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
                             try {
-                                Thread.sleep (3000);
+                                Thread.sleep (4000);
                             } catch (InterruptedException e) {
                                 e.printStackTrace ();
                             }
@@ -146,7 +146,7 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
                             Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                             textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
                             try {
-                                Thread.sleep (5000);
+                                Thread.sleep (5500);
                             } catch (InterruptedException e) {
                                 e.printStackTrace ();
                             }
@@ -155,7 +155,7 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
                             Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                             textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
                             try {
-                                Thread.sleep (5000);
+                                Thread.sleep (5500);
                             } catch (InterruptedException e) {
                                 e.printStackTrace ();
                             }
@@ -164,7 +164,7 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
                             Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                             textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
                             try {
-                                Thread.sleep (5000);
+                                Thread.sleep (5500);
                             } catch (InterruptedException e) {
                                 e.printStackTrace ();
                             }
@@ -173,7 +173,7 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
                             Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                             textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
                             try {
-                                Thread.sleep (5000);
+                                Thread.sleep (5500);
                             } catch (InterruptedException e) {
                                 e.printStackTrace ();
                             }
@@ -182,7 +182,7 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
                             Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                             textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
                             try {
-                                Thread.sleep (5000);
+                                Thread.sleep (5500);
                             } catch (InterruptedException e) {
                                 e.printStackTrace ();
                             }
@@ -191,7 +191,7 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
                             Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                             textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
                             try {
-                                Thread.sleep (5000);
+                                Thread.sleep (5500);
                             } catch (InterruptedException e) {
                                 e.printStackTrace ();
                             }
@@ -200,7 +200,7 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
                             Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                             textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
                             try {
-                                Thread.sleep (5000);
+                                Thread.sleep (5500);
                             } catch (InterruptedException e) {
                                 e.printStackTrace ();
                             }
@@ -254,7 +254,14 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
         btnVoltar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                String falar = "Voltando";
+                Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                try {
+                    Thread.sleep (2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace ();
+                }
                 Intent j = new Intent (getApplicationContext (), alarmefunc.class);
                 startActivity (j);
             }
@@ -614,9 +621,15 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
                 String falar = "Voltando";
                 Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                 textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                try {
+                    Thread.sleep (2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace ();
+                }
 
                 Intent j = new Intent (getApplicationContext (), alarmefunc.class);
                 startActivity (j);
+                onPause ();
             }else{
                 String falar = "Comando não encontrado, tente outro";
                 Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
@@ -631,9 +644,9 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
                 boolean ok = true;
                 String resposta = matches.get (0);
                 if (resposta.equalsIgnoreCase ("sim")) {
-                    ab_diasMarcados[ponteiroDia] = true;
+                    ab_diasMarcados[6] = true;
                 } else if (resposta.equalsIgnoreCase ("não")){
-                    ab_diasMarcados[ponteiroDia] = false;
+                    ab_diasMarcados[6] = false;
                 } else if (resposta.equalsIgnoreCase ("voltar")){
                     String falar = "voltando";
                     Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
@@ -645,6 +658,7 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
                     }
                     Intent j = new Intent (getApplicationContext (), alarmefunc.class);
                     startActivity (j);
+                    onPause ();
                 }else{
                     String falar = "Fale apenas sim, não ou voltar";
                     Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
@@ -717,6 +731,8 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
                         }
                         Intent j = new Intent (getApplicationContext (), alarmefunc.class);
                         startActivity (j);
+                        onPause ();
+                        ok = true;
                     }else{
                         String falar = "Fale apenas sim, não ou voltar";
                         Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
@@ -755,7 +771,9 @@ public class AlarmManagerActivity extends AppCompatActivity implements Recogniti
                 } catch (InterruptedException e) {
                     e.printStackTrace ();
                 }
-
+            Intent j = new Intent (getApplicationContext (), alarmefunc.class);
+            startActivity (j);
+                onPause ();
             return false;
         }
 

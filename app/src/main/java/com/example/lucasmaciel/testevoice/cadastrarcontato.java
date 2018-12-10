@@ -96,7 +96,7 @@ public class cadastrarcontato extends AppCompatActivity implements RecognitionLi
                         Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                         textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
                         try {
-                            Thread.sleep (7000);
+                            Thread.sleep (5000);
                         } catch (InterruptedException e) {
                             e.printStackTrace ();
                         }
@@ -106,7 +106,7 @@ public class cadastrarcontato extends AppCompatActivity implements RecognitionLi
                         Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                         textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
                         try {
-                            Thread.sleep (7000);
+                            Thread.sleep (3000);
                         } catch (InterruptedException e) {
                             e.printStackTrace ();
                         }
@@ -117,7 +117,7 @@ public class cadastrarcontato extends AppCompatActivity implements RecognitionLi
                         Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                         textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
                         try {
-                            Thread.sleep (3000);
+                            Thread.sleep (5000);
                         } catch (InterruptedException e) {
                             e.printStackTrace ();
                         }
@@ -145,7 +145,14 @@ public class cadastrarcontato extends AppCompatActivity implements RecognitionLi
         btnVoltar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                String falar = "Voltando";
+                Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                try {
+                    Thread.sleep (2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace ();
+                }
                 Intent j = new Intent (getApplicationContext (), AllContacts.class);
                 startActivity (j);
             }
@@ -439,6 +446,8 @@ public class cadastrarcontato extends AppCompatActivity implements RecognitionLi
             }
             Intent j = new Intent (getApplicationContext (), AllContacts.class);
             startActivity (j);
+
+            onPause ();
         }else{
             if(valorTelefone != 0){
                 if(verificaValorFalado(matches.get (0))){

@@ -114,9 +114,9 @@ public class Telefone extends AppCompatActivity implements RecognitionListener {
 
         returnedText.addTextChangedListener (new TextWatcher () {
             public void afterTextChanged(Editable s) {
-                String falar = "Repetindo: " + returnedText.getText ().toString ();
-                Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
-                textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                //String falar = "Repetindo: " + returnedText.getText ().toString ();
+                //Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                //textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -426,14 +426,27 @@ public class Telefone extends AppCompatActivity implements RecognitionListener {
             String falar = "Voltando";
             Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
             textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+            try {
+                Thread.sleep (8000);
+            } catch (InterruptedException e) {
+                e.printStackTrace ();
+            }
             Intent j = new Intent (getApplicationContext (), MainActivity.class);
             startActivity (j);
-        }if(matches.get (0).equals("teclado numerico") || matches.get (0).equals("numeros") || matches.get (0).equals("numero")){
+            onPause ();
+           return;
+        }if(matches.get (0).equalsIgnoreCase ("teclado numerico") || matches.get (0).equalsIgnoreCase ("teclado numérico") || matches.get (0).equalsIgnoreCase ("numeros") || matches.get (0).equalsIgnoreCase ("abrir teclado numerico") || matches.get (0).equalsIgnoreCase ("numero") || matches.get (0).equalsIgnoreCase ("abrir teclado numérico")){
             String falar = "Abrindo teclado numerico";
             Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
             textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+            try {
+                Thread.sleep (8000);
+            } catch (InterruptedException e) {
+                e.printStackTrace ();
+            }
             Intent j = new Intent (getApplicationContext (), CallPhone.class);
             startActivity (j);
+            return;
         }else{
             comandoVoz (matches);
         }
@@ -536,7 +549,7 @@ public class Telefone extends AppCompatActivity implements RecognitionListener {
             }
 
             if(serachNotFound == false){
-                String encontrado = "Contato não encontrado, tente outro";
+                String encontrado = "Contato ou função não encontrado, tente outro";
                 Toast.makeText (getApplicationContext(), encontrado, Toast.LENGTH_SHORT).show ();
                 textToSpeech.speak (encontrado, TextToSpeech.QUEUE_FLUSH, null);
             }

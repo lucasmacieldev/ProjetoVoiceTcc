@@ -126,6 +126,14 @@ public class detailcontato extends AppCompatActivity implements RecognitionListe
         btnVoltar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String falar = "Voltando";
+                Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                try {
+                    Thread.sleep (2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace ();
+                }
                 Intent j = new Intent (getApplicationContext (), AllContacts.class);
                 startActivity (j);
             }
@@ -291,7 +299,7 @@ public class detailcontato extends AppCompatActivity implements RecognitionListe
     public void onError(int errorCode) {
         String errorMessage = getErrorText (errorCode);
         Log.d (LOG_TAG, "Falhou " + errorMessage);
-        returnedText.setText (errorMessage);
+        //returnedText.setText (errorMessage);
         toggleButton.setChecked (false);
     }
 
@@ -353,14 +361,24 @@ public class detailcontato extends AppCompatActivity implements RecognitionListe
         ArrayList<String> matches = results
                 .getStringArrayList (SpeechRecognizer.RESULTS_RECOGNITION);
         String text = "";
+        boolean xp = false;
         for (String result : matches)
             text += result + "\n";
 
         for (int i = 0; i < matches.size (); i++) {
-            String textGet = matches.get(i).toString().toLowerCase();
+            String textGet = matches.get(0).toString().toLowerCase();
             if(textGet.equals ("voltar")){
+                String falar = "Voltando";
+                Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                try {
+                    Thread.sleep (2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace ();
+                }
                 Intent j = new Intent (this, AllContacts.class);
                 startActivity (j);
+                onPause ();
             }else if(textGet.equals ("deletar") || textGet.equals ("apagar") || textGet.equals ("excluir")){
                 Intent intent = getIntent();
                 Bundle bundle = intent.getExtras();
@@ -375,6 +393,7 @@ public class detailcontato extends AppCompatActivity implements RecognitionListe
                 txtResultado2.setText(telefone);
 
                 apagarContato(nomecontato, telefone);
+                xp = true;
             }else if(textGet.equals ("detalhe") || textGet.equals ("detalhe deste contato")){
                 Intent intent = getIntent();
                 Bundle bundle = intent.getExtras();
@@ -391,7 +410,15 @@ public class detailcontato extends AppCompatActivity implements RecognitionListe
                 String falar = "Nome do contato "+nomecontato+" com numero "+telefone;
                 Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                 textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+
+                xp = true;
             }
+        }
+
+        if(xp ==false){
+            String falar = "Nenhum comando executado, tente outro.";
+            Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+            textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
         }
     }
 

@@ -104,7 +104,7 @@ public class AllContacts extends AppCompatActivity implements RecognitionListene
             public void onCheckedChanged(CompoundButton buttonView,
                                          boolean isChecked) {
                 if (isChecked) {
-                    speech.startListening (recognizerIntent);
+                        speech.startListening (recognizerIntent);
                 } else {
                     speech.stopListening ();
                 }
@@ -128,6 +128,14 @@ public class AllContacts extends AppCompatActivity implements RecognitionListene
         btnVoltar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String falar = "Voltando";
+                Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
+                textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+                try {
+                    Thread.sleep (2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace ();
+                }
                 Intent j = new Intent (getApplicationContext (), MainActivity.class);
                 startActivity (j);
             }
@@ -135,7 +143,7 @@ public class AllContacts extends AppCompatActivity implements RecognitionListene
 
         btnVoltar.setOnLongClickListener(new View.OnLongClickListener() {
             public boolean onLongClick(View v) {
-                String falar = "Voltando";
+                String falar = "Voltar";
                 Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                 textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
                 return true;
@@ -270,8 +278,6 @@ public class AllContacts extends AppCompatActivity implements RecognitionListene
                     new RecyclerItemClickListener(this, rvContacts, new RecyclerItemClickListener.OnItemClickListener() {
                         @Override
                         public void onItemClick(View view, int position) {
-                            Toast.makeText(getApplicationContext(), "Click Normal", Toast.LENGTH_SHORT).show();
-
                             String name = contactVOList.get (position).getContactName ();
                             String phone = contactVOList.get (position).getContactNumber ();
 
@@ -323,45 +329,63 @@ public class AllContacts extends AppCompatActivity implements RecognitionListene
         }
 
     }
+    @Override
     protected void onPause() {
         if (speech != null) {
-            speech.destroy ();
-            Log.i (LOG_TAG, "destroy");
+            speech.destroy();
+            Log.i(LOG_TAG, "destroy");
         }
 
-        if (textToSpeech != null) {
-            textToSpeech.stop ();
-            textToSpeech.shutdown ();
+        if(textToSpeech != null){
+            textToSpeech.stop();
+            textToSpeech.shutdown();
         }
-        super.onPause ();
+        super.onPause();
     }
 
+    @Override
     public void onBeginningOfSpeech() {
-        Log.i (LOG_TAG, "onBeginningOfSpeech");
+        Log.i(LOG_TAG, "onBeginningOfSpeech");
     }
 
     @Override
     public void onRmsChanged(float rmsdB) {
-        Log.i (LOG_TAG, "onRmsChanged: " + rmsdB);
+        Log.i(LOG_TAG, "onRmsChanged: " + rmsdB);
     }
 
     @Override
     public void onBufferReceived(byte[] buffer) {
-        Log.i (LOG_TAG, "onBufferReceived: " + buffer);
+        Log.i(LOG_TAG, "onBufferReceived: " + buffer);
     }
 
     @Override
     public void onEndOfSpeech() {
-        Log.i (LOG_TAG, "onEndOfSpeech");
-        toggleButton.setChecked (false);
+        Log.i(LOG_TAG, "onEndOfSpeech");
+        toggleButton.setChecked(false);
 
+    }
+
+
+    @Override
+    public void onEvent(int arg0, Bundle arg1) {
+        Log.i(LOG_TAG, "onEvent");
+    }
+
+    @Override
+    public void onPartialResults(Bundle arg0) {
+        Log.i(LOG_TAG, "onPartialResults");
+    }
+
+    @Override
+    public void onReadyForSpeech(Bundle arg0) {
+        Log.i(LOG_TAG, "onReadyForSpeech");
     }
 
     @Override
     public void onError(int errorCode) {
         String errorMessage = getErrorText (errorCode);
         Log.d (LOG_TAG, "Falhou " + errorMessage);
-        returnedText.setText (errorMessage);
+        //returnedText.setText (errorMessage);
         toggleButton.setChecked (false);
     }
 
@@ -402,20 +426,6 @@ public class AllContacts extends AppCompatActivity implements RecognitionListene
         return message;
     }
 
-    @Override
-    public void onEvent(int arg0, Bundle arg1) {
-        Log.i (LOG_TAG, "onEvent");
-    }
-
-    @Override
-    public void onPartialResults(Bundle arg0) {
-        Log.i (LOG_TAG, "onPartialResults");
-    }
-
-    @Override
-    public void onReadyForSpeech(Bundle arg0) {
-        Log.i (LOG_TAG, "onReadyForSpeech");
-    }
 
     @Override
     public void onResults(Bundle results) {
@@ -430,12 +440,18 @@ public class AllContacts extends AppCompatActivity implements RecognitionListene
             String falar = "Voltando";
             Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
             textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
+            try {
+                Thread.sleep (2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace ();
+            }
             Intent j = new Intent (getApplicationContext (), MainActivity.class);
             startActivity (j);
+            onPause ();
         }else{
             for (int i = 0; i < matches.size (); i++) {
                 String textGet = matches.get(i).toString().toLowerCase();
-                if(textGet.equals ("adicionar novo contato") || textGet.equals ("adicionar") || textGet.equals ("novo") || textGet.equals ("novo contato") || textGet.equals ("adicionar contato")){
+                if(textGet.equals ("adicionar novo contato") || textGet.equals ("cadastrar novo contato") || textGet.equals ("adicionar") || textGet.equals ("novo") || textGet.equals ("novo contato") || textGet.equals ("adicionar contato")){
                     String falar = "Novo contato";
                     Toast.makeText (getApplicationContext (), falar, Toast.LENGTH_SHORT).show ();
                     textToSpeech.speak (falar, TextToSpeech.QUEUE_FLUSH, null);
@@ -532,6 +548,7 @@ public class AllContacts extends AppCompatActivity implements RecognitionListene
 
 
                         serachNotFound = true;
+                        onPause();
                     }
                     if(serachNotFound){
                         break;
